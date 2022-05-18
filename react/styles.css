@@ -1,0 +1,26 @@
+.btn_external button {
+  width: 120px;
+}
+
+.btn_filter button {
+  width: 95%;
+  font-size: 15px;
+}
+
+.buttonGroup button {
+  z-index: 0 !important;
+}
+
+@media (max-width: 800px) {
+  .filter {
+    flex-direction: column;
+  }
+
+  .filter_container {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .btn_filter {
+    width: 100%;
+  }
+}
