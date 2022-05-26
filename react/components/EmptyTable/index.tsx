@@ -5,7 +5,7 @@ import { EmptyState } from 'vtex.styleguide'
 const EmptyTable: FC = () => {
   return (
     <div className="mt5">
-      <EmptyState title="There aren't data to show">
+      <EmptyState title="There's nothing here">
         <p>Use the filters to search and display data</p>
       </EmptyState>
     </div>
