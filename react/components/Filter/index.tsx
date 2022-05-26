@@ -19,6 +19,7 @@ const Filter: FC<FilterProps> = (props) => {
   const [startDateFilter, setDateFilter] = useState<Date | string>('')
   const [finalDateFilter, setFinalDateFilter] = useState<Date | string>('')
   const { setQuery, query } = useRuntime()
+  const [clearFilter, setClearFilter] = useState(false)
 
   const getDate = (date: string) => {
     const dateConverter = new Date(date)
@@ -35,6 +36,8 @@ const Filter: FC<FilterProps> = (props) => {
     let stringSellers = ''
     let stringSellersName = ''
     let countTotalItems = 0
+
+    setClearFilter(false)
 
     dataFilter.forEach((item: DataFilter) => {
       if (!item) return
@@ -60,6 +63,8 @@ const Filter: FC<FilterProps> = (props) => {
       props.setSellerId(stringSellers.slice(0, -1))
     }
 
+    if (props.setId) props.setId(stringSellers.slice(0, -1))
+
     if (!stringSellers && !stringSellersName) props.setSellerId('')
 
     stringSellers = stringSellers.substring(0, stringSellers.length - 1)
@@ -67,13 +72,13 @@ const Filter: FC<FilterProps> = (props) => {
     stringSellersName = encodeURIComponent(stringSellersName)
     if (stringSellersName) setQuery({ sellerName: stringSellersName })
 
-    if (startDateFilter !== '') {
+    if (startDateFilter !== '' && props.setStartDate) {
       const newDateStart = getDate(startDateFilter.toString())
 
       props.setStartDate(newDateStart)
     }
 
-    if (finalDateFilter !== '') {
+    if (finalDateFilter !== '' && props.setFinalDate) {
       const newDateFinal = getDate(finalDateFilter.toString())
 
       props.setFinalDate(newDateFinal)
@@ -85,9 +90,8 @@ const Filter: FC<FilterProps> = (props) => {
 
   useEffect(() => {
     if (!query?.sellerName) return
-
     // eslint-disable-next-line vtex/prefer-early-return
-    if (props.optionsSelect.length > 0) {
+    if (props.optionsSelect.length > 0 && !clearFilter) {
       const queryData = query.sellerName.split(',')
       const filterQueryData: any = []
 
@@ -145,9 +149,9 @@ const Filter: FC<FilterProps> = (props) => {
           />
         </div>
       )}
-      <div className="flex mt5">
+      <div className="flex-ns mt5">
         {props.optionsStatus ? (
-          <div className="w-30 pr6">
+          <div className="w-30-ns w-100-s pr6-ns mb4-s">
             <SelectComponent
               options={props.optionsStatus}
               dataFilter={statusFilter}
@@ -161,17 +165,21 @@ const Filter: FC<FilterProps> = (props) => {
         ) : (
           <div className="w-30 pt6" />
         )}
-        <div className="w-50">
-          <DatePickerComponent
-            startDateFilter={startDateFilter}
-            startDatePicker={props.startDatePicker}
-            changeStartDate={changeStartDate}
-            finalDateFilter={finalDateFilter}
-            finalDatePicker={props.finalDatePicker}
-            changeFinalDate={changeFinalDate}
-          />
+        <div className="w-50-ns w-100-s mb4-s">
+          {props.startDatePicker && props.finalDatePicker ? (
+            <DatePickerComponent
+              startDateFilter={startDateFilter}
+              startDatePicker={props.startDatePicker}
+              changeStartDate={changeStartDate}
+              finalDateFilter={finalDateFilter}
+              finalDatePicker={props.finalDatePicker}
+              changeFinalDate={changeFinalDate}
+            />
+          ) : (
+            <div />
+          )}
         </div>
-        <div className="w-20 mt6">
+        <div className="w-20-ns w-100-s mt6-ns mb7-s mb0-m">
           <div className={`fr ${styles.buttonGroup}`}>
             <ButtonGroup
               buttons={[
@@ -188,21 +196,25 @@ const Filter: FC<FilterProps> = (props) => {
                   isActiveOfGroup={false}
                   onClick={() => {
                     setDataFilter([])
-                    setStatusfilter([])
-                    props.setStartDate(
-                      props.defaultStartDate ? props.defaultStartDate : ''
-                    )
-                    props.setFinalDate(
-                      props.defaultFinalDate ? props.defaultFinalDate : ''
-                    )
-                    setDateFilter(
-                      new Date(`${props.defaultStartDate}T00:00:00`)
-                    )
-                    setFinalDateFilter(
-                      new Date(`${props.defaultFinalDate}T00:00:00`)
-                    )
+                    setQuery({ sellerName: undefined })
                     props.setSellerId('')
-                    setQuery({ sellerName: null })
+                    setStatusfilter([])
+                    setClearFilter(true)
+                    if (props.setStartDate && props.setFinalDate) {
+                      props.setStartDate(
+                        props.defaultStartDate ? props.defaultStartDate : ''
+                      )
+                      props.setFinalDate(
+                        props.defaultFinalDate ? props.defaultFinalDate : ''
+                      )
+                      setDateFilter(
+                        new Date(`${props.defaultStartDate}T00:00:00`)
+                      )
+                      setFinalDateFilter(
+                        new Date(`${props.defaultFinalDate}T00:00:00`)
+                      )
+                    }
+
                     if (props.setTotalItems) props.setTotalItems(0)
                     if (props.setStatusOrders) props.setStatusOrders('')
                   }}

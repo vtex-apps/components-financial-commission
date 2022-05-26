@@ -1,6 +1,7 @@
 import type { FC } from 'react'
 import React, { useState } from 'react'
 import { useMutation } from 'react-apollo'
+import { FormattedMessage } from 'react-intl'
 import {
   Alert,
   ButtonWithIcon,
@@ -16,12 +17,12 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
   const [validEmail, setValidEmail] = useState(true)
   const [empty, setEmpty] = useState(true)
 
-  const EMAIL_PATTERN = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+  const EMAIL_PATTERN = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 
-  const checkEmail = (value: string) => {
-    const valid = EMAIL_PATTERN.test(value)
+  const checkEmail = (emailAddress: string) => {
+    const valid = EMAIL_PATTERN.test(emailAddress)
 
-    if (!value) {
+    if (!emailAddress) {
       setEmpty(true)
 
       return
@@ -35,17 +36,15 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
     }
   }
 
-  const [createInvoice, { data, loading, error }] = useMutation(
-    props.invoiceMutation
-  )
+  const [createInvoice, { data, loading, error }] = useMutation(props.invoiceMutation)
 
   const getErrorMessage = () => {
     if (empty) {
-      return 'Specify an email address'
+      return <FormattedMessage id="admin/modal-settings.email-empty" />
     }
 
     if (!validEmail) {
-      return 'Invalid email address'
+      return <FormattedMessage id="admin/modal-settings.email-invalid" />
     }
 
     return null
@@ -54,16 +53,18 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
   const handleCreateInvoice = (
     startDate: string,
     finalDate: string,
-    sellerName: string,
-    mail: string
+    name: string,
+    id: string,
+    emailAddress: string
     // eslint-disable-next-line max-params
   ) => {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     createInvoice({
       variables: {
         invoiceData: {
-          name: sellerName,
-          email: mail,
+          name,
+          id,
+          email: emailAddress,
           startDate,
           endDate: finalDate,
         },
@@ -80,11 +81,19 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
   }
 
   if (data) {
-    return <Alert type="success">Invoice Created</Alert>
+    return (
+      <Alert type="success">
+        {<FormattedMessage id="admin/invoice-success" />}
+      </Alert>
+    )
   }
 
   if (error) {
-    return <Alert type="error">Error: {error}</Alert>
+    return (
+      <Alert type="error">
+        {<FormattedMessage id="admin/invoice-error" />}
+      </Alert>
+    )
   }
 
   return (
@@ -102,6 +111,7 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
               props.sellerData.startDate,
               props.sellerData.finalDate,
               props.sellerData.sellerName,
+              props.sellerData.id,
               email
             )
             setIsModalOpen(!isModalOpen)
