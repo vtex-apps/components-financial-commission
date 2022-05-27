@@ -187,6 +187,8 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
                 setDataRate={setDataRate}
                 sellerId={sellerId}
                 invoiceMutation={invoiceMutation}
+                setOpenModal={setOpenModal}
+                openModal={openModal}
               />
             </div>
           </Tab>

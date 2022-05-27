@@ -26,6 +26,8 @@ interface DetailProps {
   statusOrders?: string
   setDataRate: (data: any) => void
   sellerId?: string
+  setOpenModal?: (open: boolean) => void
+  openModal?: boolean
 }
 
 const SellerOrders: FC<DetailProps> = ({
@@ -37,11 +39,12 @@ const SellerOrders: FC<DetailProps> = ({
   statusOrders,
   setDataRate,
   sellerId,
-  invoiceMutation
+  invoiceMutation,
+  setOpenModal,
+  openModal,
 }) => {
   const { query } = useRuntime()
   const [dataTableOrders, setDataTableOrders] = useState<any>([])
-  const [openModal, setOpenModal] = useState(false)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [itemFrom, setItemFrom] = useState(1)
@@ -67,7 +70,7 @@ const SellerOrders: FC<DetailProps> = ({
   const schemaTable = [
     {
       id: 'id',
-      title: 'Order ID',
+      title: <FormattedMessage id="admin/table-seller-order" />,
       cellRenderer: (props: CellRendererProps) => {
         return (
           // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -84,25 +87,25 @@ const SellerOrders: FC<DetailProps> = ({
     },
     {
       id: 'creationDate',
-      title: 'Creation Date',
+      title: <FormattedMessage id="admin/table-creation-order" />,
     },
     {
       id: 'totalOrder',
-      title: 'Total Order',
+      title: <FormattedMessage id="admin/table-total-order" />,
       cellRenderer: (props: CellRendererProps) => {
         return <span>${props.data}</span>
       },
     },
     {
       id: 'totalCommission',
-      title: 'Total Commission',
+      title: <FormattedMessage id="admin/table-commission-order" />,
       cellRenderer: (props: CellRendererProps) => {
         return <span>${props.data}</span>
       },
     },
     {
       id: 'rate',
-      title: 'Rate',
+      title: <FormattedMessage id="admin/table-rate-order" />,
       cellRenderer: (props: any) => {
         return (
           <div>
@@ -110,8 +113,9 @@ const SellerOrders: FC<DetailProps> = ({
               icon={<IconVisibilityOff />}
               variation="tertiary"
               onClick={() => {
-                setOpenModal(!openModal)
+                if (!setOpenModal) return
                 setDataRate(props.data)
+                setOpenModal(!openModal)
               }}
             />
           </div>
@@ -120,7 +124,7 @@ const SellerOrders: FC<DetailProps> = ({
     },
     {
       id: 'status',
-      title: 'Status',
+      title: <FormattedMessage id="admin/table-seller-status" />,
       cellRenderer: (props: any) => {
         return (
           <Tag bgColor={props.data.bgColor} color={props.data.fontColor}>
@@ -205,7 +209,7 @@ const SellerOrders: FC<DetailProps> = ({
     <PageBlock>
       {statusOrders === 'invoiced' ? (
         <ModalConfirm
-        invoiceMutation={invoiceMutation}
+          invoiceMutation={invoiceMutation}
           buttonMessage={
             <FormattedMessage id="admin/form-settings.button-invoice" />
           }

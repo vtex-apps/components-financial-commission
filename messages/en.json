@@ -27,5 +27,17 @@
   "admin/modal-setting.warning": "The invoice you are about to create may contain orders previously invoiced.",
   "admin/modal-setting.confirmation": "Are you sure to continue?",
   "admin/form-settings.button-new": "Generate a new one",
-  "admin/form-settings.is-enable": "Actived"
+  "admin/form-settings.is-enable": "Actived",
+  "admin/table.empty-state": "Use the filters to search and display data",
+  "admin/table.empty-state-title": "There's nothing here",
+  "admin/table-seller-invoice": "ID invoice",
+  "admin/table-seller-status": "Status",
+  "admin/table-seller-created": "Invoice Created Date",
+  "admin/table-seller-order": "Order ID",
+  "admin/table-creation-order": "Creation Date",
+  "admin/table-total-order": "Total Order",
+  "admin/table-commission-order": "Total Commission",
+  "admin/table-rate-order": "Rate",
+  "admin/table-modal-confirm": "Confirm",
+  "admin/table-modal-cancel": "Cancel"
 }

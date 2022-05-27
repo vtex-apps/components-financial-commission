@@ -52,7 +52,7 @@ interface TableData {
 
 interface SchemaTable {
   id: string
-  title: string
+  title: any
   cellRenderer?: (props: CellRendererProps) => void
 }
 
