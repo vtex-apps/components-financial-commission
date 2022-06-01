@@ -37,7 +37,7 @@ const SellerOrders: FC<DetailProps> = ({
   statusOrders,
   setDataRate,
   sellerId,
-  invoiceMutation
+  invoiceMutation,
 }) => {
   const { query } = useRuntime()
   const [dataTableOrders, setDataTableOrders] = useState<any>([])
@@ -48,39 +48,74 @@ const SellerOrders: FC<DetailProps> = ({
   const [itemTo, setItemTo] = useState(20)
   const [totalItems, setTotalItems] = useState(0)
 
-  const [getDataOrders, { data: dataOrders, loading: loadingDataOrders }] =
-    useLazyQuery(ordersQuery, {
-      ssr: false,
-      pollInterval: 0,
-      variables: {
-        searchOrdersParams: {
-          dateStart: startDate,
-          dateEnd: finalDate,
-          sellerName,
-          page,
-          perpage: pageSize,
-          status: statusOrders,
-        },
+  const [
+    getDataOrders,
+    { data: dataOrders, loading: loadingDataOrders },
+  ] = useLazyQuery(ordersQuery, {
+    ssr: false,
+    pollInterval: 0,
+    variables: {
+      searchOrdersParams: {
+        dateStart: startDate,
+        dateEnd: finalDate,
+        sellerName,
+        page,
+        perpage: pageSize,
+        status: statusOrders,
       },
-    })
+    },
+  })
+
+  const IDCell = (props: CellRendererProps) => {
+    return (
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      <a
+        href={`admin/checkout/#/orders/${props.data}`}
+        style={{ color: '#0C389F' }}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {props.data}
+      </a>
+    )
+  }
+
+  const TotalOrderCell = (props: CellRendererProps) => {
+    return <span>${props.data}</span>
+  }
+
+  const TotalCommissionCell = (props: CellRendererProps) => {
+    return <span>${props.data}</span>
+  }
+
+  const RateCell = (props: any) => {
+    return (
+      <div>
+        <ButtonWithIcon
+          icon={<IconVisibilityOff />}
+          variation="tertiary"
+          onClick={() => {
+            setOpenModal(!openModal)
+            setDataRate(props.data)
+          }}
+        />
+      </div>
+    )
+  }
+
+  const StatusCell = (props: any) => {
+    return (
+      <Tag bgColor={props.data.bgColor} color={props.data.fontColor}>
+        {props.data.status}
+      </Tag>
+    )
+  }
 
   const schemaTable = [
     {
       id: 'id',
       title: 'Order ID',
-      cellRenderer: (props: CellRendererProps) => {
-        return (
-          // eslint-disable-next-line jsx-a11y/anchor-is-valid
-          <a
-            href={`admin/checkout/#/orders/${props.data}`}
-            style={{ color: '#0C389F' }}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {props.data}
-          </a>
-        )
-      },
+      cellRenderer: IDCell,
     },
     {
       id: 'creationDate',
@@ -89,45 +124,22 @@ const SellerOrders: FC<DetailProps> = ({
     {
       id: 'totalOrder',
       title: 'Total Order',
-      cellRenderer: (props: CellRendererProps) => {
-        return <span>${props.data}</span>
-      },
+      cellRenderer: TotalOrderCell,
     },
     {
       id: 'totalCommission',
       title: 'Total Commission',
-      cellRenderer: (props: CellRendererProps) => {
-        return <span>${props.data}</span>
-      },
+      cellRenderer: TotalCommissionCell,
     },
     {
       id: 'rate',
       title: 'Rate',
-      cellRenderer: (props: any) => {
-        return (
-          <div>
-            <ButtonWithIcon
-              icon={<IconVisibilityOff />}
-              variation="tertiary"
-              onClick={() => {
-                setOpenModal(!openModal)
-                setDataRate(props.data)
-              }}
-            />
-          </div>
-        )
-      },
+      cellRenderer: RateCell,
     },
     {
       id: 'status',
       title: 'Status',
-      cellRenderer: (props: any) => {
-        return (
-          <Tag bgColor={props.data.bgColor} color={props.data.fontColor}>
-            {props.data.status}
-          </Tag>
-        )
-      },
+      cellRenderer: StatusCell,
     },
   ]
 
@@ -203,9 +215,9 @@ const SellerOrders: FC<DetailProps> = ({
 
   return (
     <PageBlock>
-      {statusOrders === 'invoiced' ? (
+      {statusOrders === 'invoiced' && dataOrders?.orders.data.length ? (
         <ModalConfirm
-        invoiceMutation={invoiceMutation}
+          invoiceMutation={invoiceMutation}
           buttonMessage={
             <FormattedMessage id="admin/form-settings.button-invoice" />
           }
