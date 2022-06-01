@@ -30,6 +30,7 @@ interface ModalConfirmData {
   messages: MessagesData
   sellerData: SellerData
   invoiceMutation: any
+  disabled: boolean
 }
 
 interface MessagesData {

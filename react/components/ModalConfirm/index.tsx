@@ -4,9 +4,8 @@ import { useMutation } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
 import {
   Alert,
-  // ButtonWithIcon,
-  Button,
-  // IconPlus,
+  ButtonWithIcon,
+  IconPlus,
   Input,
   ModalDialog,
   Spinner,
@@ -148,15 +147,15 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
         </div>
       </ModalDialog>
       <div className="mb5 flex justify-end items-end">
-        <Button
-          // icon={<IconPlus />}
+        <ButtonWithIcon
+          icon={<IconPlus />}
           onClick={() => {
             setIsModalOpen(!isModalOpen)
           }}
-          disabled
+          disabled={props.disabled}
         >
           {props.buttonMessage}
-        </Button>
+        </ButtonWithIcon>
         <div className="ph2">
           <Tooltip
             label={`Filter by "invoiced" in order to enable CREATE INVOICE`}
