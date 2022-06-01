@@ -26,6 +26,8 @@ interface DetailProps {
   statusOrders?: string
   setDataRate: (data: any) => void
   sellerId?: string
+  setOpenModal?: (open: boolean) => void
+  openModal?: boolean
 }
 
 const SellerOrders: FC<DetailProps> = ({
@@ -38,10 +40,11 @@ const SellerOrders: FC<DetailProps> = ({
   setDataRate,
   sellerId,
   invoiceMutation,
+  setOpenModal,
+  openModal,
 }) => {
   const { query } = useRuntime()
   const [dataTableOrders, setDataTableOrders] = useState<any>([])
-  const [openModal, setOpenModal] = useState(false)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [itemFrom, setItemFrom] = useState(1)
@@ -95,7 +98,7 @@ const SellerOrders: FC<DetailProps> = ({
           icon={<IconVisibilityOff />}
           variation="tertiary"
           onClick={() => {
-            setOpenModal(!openModal)
+            if (setOpenModal) setOpenModal(!openModal)
             setDataRate(props.data)
           }}
         />
@@ -114,31 +117,31 @@ const SellerOrders: FC<DetailProps> = ({
   const schemaTable = [
     {
       id: 'id',
-      title: 'Order ID',
+      title: <FormattedMessage id="admin/table-seller-order" />,
       cellRenderer: IDCell,
     },
     {
       id: 'creationDate',
-      title: 'Creation Date',
+      title: <FormattedMessage id="admin/table-creation-order" />,
     },
     {
       id: 'totalOrder',
-      title: 'Total Order',
+      title: <FormattedMessage id="admin/table-total-order" />,
       cellRenderer: TotalOrderCell,
     },
     {
       id: 'totalCommission',
-      title: 'Total Commission',
+      title: <FormattedMessage id="admin/table-commission-order" />,
       cellRenderer: TotalCommissionCell,
     },
     {
       id: 'rate',
-      title: 'Rate',
+      title: <FormattedMessage id="admin/table-rate-order" />,
       cellRenderer: RateCell,
     },
     {
       id: 'status',
-      title: 'Status',
+      title: <FormattedMessage id="admin/table-seller-status" />,
       cellRenderer: StatusCell,
     },
   ]

@@ -6,6 +6,7 @@ import { PageBlock, Tag } from 'vtex.styleguide'
 import { useRuntime } from 'vtex.render-runtime'
 import { useLazyQuery } from 'react-apollo'
 import type { DocumentNode } from 'graphql'
+import { FormattedMessage } from 'react-intl'
 
 import TableComponent from '../Table'
 import PaginationComponent from '../Table/pagination'
@@ -74,14 +75,14 @@ const SellerInvoices: FC<DetailProps> = ({
   const schemaTableInvoice = [
     {
       id: 'id',
-      title: 'ID invoice',
+      title: <FormattedMessage id="admin/table-seller-invoice" />,
       cellRenderer: (props: CellRendererProps) => {
         return (
           // eslint-disable-next-line jsx-a11y/anchor-is-valid
           <a
-            href="#"
+            href={`/admin/app/commission-report/invoice/${props.data}`}
             style={{ color: '#0C389F' }}
-            target="_blank"
+            target="_self"
             rel="noreferrer"
           >
             {props.data}
@@ -91,11 +92,11 @@ const SellerInvoices: FC<DetailProps> = ({
     },
     {
       id: 'invoiceCreatedDate',
-      title: 'Invoice Created Date',
+      title: <FormattedMessage id="admin/table-seller-status" />,
     },
     {
       id: 'status',
-      title: 'Status',
+      title: <FormattedMessage id="admin/table-seller-created" />,
       cellRenderer: (props: any) => {
         // eslint-disable-next-line array-callback-return
         const getColor = Object.keys(status).find(
