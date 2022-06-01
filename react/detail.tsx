@@ -134,7 +134,7 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
       >
         <div className="mb3">
           {dateRate.map((elmRate: any) => (
-            <div>
+            <div key="elmRate">
               <h2>Item ID: #{elmRate.itemId}</h2>
               <p>
                 <b>Name Item: </b> {elmRate.nameItem}

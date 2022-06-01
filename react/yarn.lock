@@ -4951,6 +4951,10 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
+"vtex.components-financial-commission@https://felipe2--elefantqa.myvtex.com/_v/private/typings/linked/v1/vtex.components-financial-commission@0.0.2+build1654119318/public/@types/vtex.components-financial-commission":
+  version "0.0.2"
+  resolved "https://felipe2--elefantqa.myvtex.com/_v/private/typings/linked/v1/vtex.components-financial-commission@0.0.2+build1654119318/public/@types/vtex.components-financial-commission#620e098f6509b074ce8a35009e3d0f98355dfd91"
+
 "vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.132.4/public/@types/vtex.render-runtime":
   version "8.132.4"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.132.4/public/@types/vtex.render-runtime#66bb41bd4d342e37c9d85172aad5f7eefebfb6dc"
