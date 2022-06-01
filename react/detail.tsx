@@ -88,27 +88,35 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
 
   useEffect(() => {
     const defaultDate = new Date()
-    const defaultStart = new Date(
+    let defaultStart: Date = new Date()
+    const defaultfinal = new Date(
       defaultDate.getFullYear(),
       defaultDate.getMonth(),
-      1
+      defaultDate.getDate()
     )
 
-    const defaultStartString =
-      `${defaultStart.getFullYear()}-${formatDate(
-        defaultStart.getMonth() + 1
-      )}-` + `01`
+    const defaultFinalString = `${defaultfinal.getFullYear()}-${formatDate(
+      defaultfinal.getMonth() + 1
+    )}-${formatDate(defaultfinal.getDate())}`
 
-    const valueDate = defaultDate.getDate() - 1
-    const valueMonth = defaultDate.getMonth() + 1
-    const defaultFinal = `${defaultDate.getFullYear()}-${formatDate(
-      valueMonth
-    )}-${formatDate(valueDate)}`
+    if (defaultDate.getDate() <= 1) {
+      defaultStart = defaultfinal
+    } else {
+      defaultStart = new Date(
+        defaultDate.getFullYear(),
+        defaultDate.getMonth(),
+        1
+      )
+    }
+
+    const defaultStartString = `${defaultStart.getFullYear()}-${formatDate(
+      defaultStart.getMonth() + 1
+    )}-${formatDate(defaultStart.getDate())}`
 
     setStartDate(defaultStartString)
-    setFinalDate(defaultFinal)
+    setFinalDate(defaultFinalString)
     setDefaultStartDate(defaultStartString)
-    setDefaultFinalDate(defaultFinal)
+    setDefaultFinalDate(defaultFinalString)
   }, [])
 
   return (

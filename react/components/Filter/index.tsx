@@ -156,7 +156,7 @@ const Filter: FC<FilterProps> = (props) => {
               options={props.optionsStatus}
               dataFilter={statusFilter}
               setDataFilter={setStatusfilter}
-              multi
+              multi={false}
               customLabel={
                 <FormattedMessage id="admin/table.title-status-label" />
               }

@@ -80,9 +80,9 @@ const SellerInvoices: FC<DetailProps> = ({
         return (
           // eslint-disable-next-line jsx-a11y/anchor-is-valid
           <a
-            href="#"
+            href={`/admin/app/commission-report/invoice/${props.data}`}
             style={{ color: '#0C389F' }}
-            target="_blank"
+            target="_self"
             rel="noreferrer"
           >
             {props.data}
