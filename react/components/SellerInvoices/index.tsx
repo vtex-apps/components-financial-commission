@@ -92,11 +92,11 @@ const SellerInvoices: FC<DetailProps> = ({
     },
     {
       id: 'invoiceCreatedDate',
-      title: <FormattedMessage id="admin/table-seller-status" />,
+      title: <FormattedMessage id="admin/table-seller-created" />,
     },
     {
       id: 'status',
-      title: <FormattedMessage id="admin/table-seller-created" />,
+      title: <FormattedMessage id="admin/table-seller-status" />,
       cellRenderer: (props: any) => {
         // eslint-disable-next-line array-callback-return
         const getColor = Object.keys(status).find(
