@@ -4,13 +4,11 @@ import { useMutation } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
 import {
   Alert,
-  ButtonWithIcon,
-  IconPlus,
+  Button,
   Input,
   ModalDialog,
   Spinner,
   Tooltip,
-  IconInfo,
 } from 'vtex.styleguide'
 
 const ModalConfirm: FC<ModalConfirmData> = (props) => {
@@ -147,22 +145,19 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
         </div>
       </ModalDialog>
       <div className="mb5 flex justify-end items-end">
-        <ButtonWithIcon
-          icon={<IconPlus />}
-          onClick={() => {
-            setIsModalOpen(!isModalOpen)
-          }}
-          disabled={props.disabled}
-        >
-          {props.buttonMessage}
-        </ButtonWithIcon>
         <div className="ph2">
           <Tooltip
-            label={`Filter by "invoiced" in order to enable CREATE INVOICE`}
+            label={`Filter orders by "invoiced" to enable CREATE INVOICE`} // TODO: change to a FormattedMessage component
           >
-            <span>
-              <IconInfo />
-            </span>
+            <Button
+              onClick={() => {
+                setIsModalOpen(!isModalOpen)
+              }}
+              disabled={props.disabled}
+              variation="success"
+            >
+              {props.buttonMessage}
+            </Button>
           </Tooltip>
         </div>
       </div>

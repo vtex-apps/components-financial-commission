@@ -47,7 +47,7 @@ const Filter: FC<FilterProps> = (props) => {
     })
 
     if (props.setStatusOrders) {
-      if (statusFilter.length > 0) {
+      if (statusFilter.length > 0 && statusFilter[0]) {
         let stringStatus = ''
 
         statusFilter.forEach((status) => {
