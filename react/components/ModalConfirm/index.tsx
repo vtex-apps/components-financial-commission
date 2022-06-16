@@ -2,14 +2,7 @@ import type { FC } from 'react'
 import React, { useState } from 'react'
 import { useMutation } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
-import {
-  Alert,
-  Button,
-  Input,
-  ModalDialog,
-  Spinner,
-  Tooltip,
-} from 'vtex.styleguide'
+import { Alert, Button, Input, ModalDialog, Spinner } from 'vtex.styleguide'
 
 const ModalConfirm: FC<ModalConfirmData> = (props) => {
   const [email, setEmail] = useState('')
@@ -144,23 +137,25 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
           </div>
         </div>
       </ModalDialog>
-      <div className="mb5 flex justify-end items-end">
-        <div className="ph2">
-          <Tooltip
-            label={`Filter orders by "invoiced" to enable CREATE INVOICE`} // TODO: change to a FormattedMessage component
-          >
-            <Button
-              onClick={() => {
-                setIsModalOpen(!isModalOpen)
-              }}
-              disabled={props.disabled}
-              variation="success"
-            >
-              {props.buttonMessage}
-            </Button>
-          </Tooltip>
-        </div>
+      {!props.disabled ? (
+        ''
+      ) : (
+        <Alert type="warning">
+          Filter orders by invoiced status to enable CREATE INVOICE button
+        </Alert>
+      )}
+      <div className="mt3 mb5 flex justify-center items-end">
+        <Button
+          onClick={() => {
+            setIsModalOpen(!isModalOpen)
+          }}
+          disabled={props.disabled}
+          variation="success"
+        >
+          {props.buttonMessage}
+        </Button>
       </div>
+      <div className="mb5 flex justify-end items-end" />
     </>
   )
 }

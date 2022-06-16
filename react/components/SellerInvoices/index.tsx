@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-key */
-import type { FC } from 'react'
-import React, { useState, useEffect } from 'react'
-import { PageBlock, Tag } from 'vtex.styleguide'
-import { useRuntime } from 'vtex.render-runtime'
-import { useLazyQuery } from 'react-apollo'
 import type { DocumentNode } from 'graphql'
+import type { FC } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLazyQuery } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
+import { useRuntime } from 'vtex.render-runtime'
+import { PageBlock, Tag } from 'vtex.styleguide'
 
+import { status } from '../../constants'
 import TableComponent from '../Table'
 import PaginationComponent from '../Table/pagination'
-import { status } from '../../constants'
-
 
 interface DetailProps {
   invoicesQuery: DocumentNode
@@ -76,6 +75,7 @@ const SellerInvoices: FC<DetailProps> = ({
     {
       id: 'id',
       title: <FormattedMessage id="admin/table-seller-invoice" />,
+      // eslint-disable-next-line react/display-name
       cellRenderer: (props: CellRendererProps) => {
         return (
           // eslint-disable-next-line jsx-a11y/anchor-is-valid
