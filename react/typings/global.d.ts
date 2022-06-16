@@ -1,3 +1,12 @@
+interface Invoice {
+  comment?: string
+  invoiceCreateDate?: string
+  orders?: [Order]
+  seller?: Seller
+  status?: string
+  totalizers?: Totalizers
+}
+
 interface DataFilter {
   label: string
   value: {
