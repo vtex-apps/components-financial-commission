@@ -4,7 +4,7 @@ import {
   EXPERIMENTAL_Table as Table,
   EXPERIMENTAL_useTableMeasures as useTableMeasures,
   Spinner,
-  // EXPERIMENTAL_useTableSort as useTableSort,
+  EXPERIMENTAL_useTableSort as useTableSort,
   // EXPERIMENTAL_useCheckboxTree as useColumnsWithCheckboxes
 } from 'vtex.styleguide'
 
@@ -12,6 +12,12 @@ import EmptyTable from '../EmptyTable'
 
 const TableV2: FC<TableData> = (props) => {
   const measures = useTableMeasures({ size: props.items.length })
+  const sorting = useTableSort()
+
+  if (sorting.sorted.by && sorting.sorted.order) {
+    props.sorting(sorting.sorted)
+  }
+
 
   const ColumnsExample = () => {
     return (
@@ -22,6 +28,7 @@ const TableV2: FC<TableData> = (props) => {
             items={props.items}
             columns={props.schemaTable}
             highlightOnHover
+            sorting={sorting}
           />
         ) : (
           <EmptyTable />

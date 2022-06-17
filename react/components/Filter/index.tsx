@@ -9,7 +9,6 @@ import {
 } from 'vtex.styleguide'
 import { useRuntime } from 'vtex.render-runtime'
 
-import styles from '../../styles.css'
 import SelectComponent from './select'
 import DatePickerComponent from './datePicker'
 
@@ -135,9 +134,9 @@ const Filter: FC<FilterProps> = (props) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-wrap pa0">
       {!props.disableSelect && (
-        <div className={`${styles.filter_container} w-100`}>
+        <div className="w-100">
           <SelectComponent
             options={props.optionsSelect}
             dataFilter={dataFilter}
@@ -149,24 +148,24 @@ const Filter: FC<FilterProps> = (props) => {
           />
         </div>
       )}
-      <div className="flex-ns mt5">
-        {props.optionsStatus ? (
-          <div className="w-30-ns w-100-s pr6-ns mb4-s">
-            <SelectComponent
-              options={props.optionsStatus}
-              dataFilter={statusFilter}
-              setDataFilter={setStatusfilter}
-              multi={false}
-              customLabel={
-                <FormattedMessage id="admin/table.title-status-label" />
-              }
-            />
-          </div>
-        ) : (
-          <div className="w-30 pt6" />
-        )}
-        <div className="w-50-ns w-100-s mb4-s">
-          {props.startDatePicker && props.finalDatePicker ? (
+      {props.optionsStatus ? (
+        <div className="w-100 pt5">
+          <SelectComponent
+            options={props.optionsStatus}
+            dataFilter={statusFilter}
+            setDataFilter={setStatusfilter}
+            multi
+            customLabel={
+              <FormattedMessage id="admin/table.title-status-label" />
+            }
+          />
+        </div>
+      ) : (
+        <div className="w-100 pt5" />
+      )}
+      <div className="flex-ns w-100 justify-around items-end">
+        {props.startDatePicker && props.finalDatePicker ? (
+          <div className="w-100-ns pt5 pr2">
             <DatePickerComponent
               startDateFilter={startDateFilter}
               startDatePicker={props.startDatePicker}
@@ -175,54 +174,52 @@ const Filter: FC<FilterProps> = (props) => {
               finalDatePicker={props.finalDatePicker}
               changeFinalDate={changeFinalDate}
             />
-          ) : (
-            <div />
-          )}
-        </div>
-        <div className="w-20-ns w-100-s mt6-ns mb7-s mb0-m">
-          <div className={`fr ${styles.buttonGroup}`}>
-            <ButtonGroup
-              buttons={[
-                // eslint-disable-next-line react/jsx-key
-                <ButtonWithIcon
-                  isActiveOfGroup
-                  onClick={() => changesValuesTable()}
-                  icon={<IconFilter />}
-                >
-                  {<FormattedMessage id="admin/table.title-filter" />}
-                </ButtonWithIcon>,
-                // eslint-disable-next-line react/jsx-key
-                <ButtonWithIcon
-                  isActiveOfGroup={false}
-                  onClick={() => {
-                    setDataFilter([])
-                    setQuery({ sellerName: undefined })
-                    props.setSellerId('')
-                    setStatusfilter([])
-                    setClearFilter(true)
-                    if (props.setStartDate && props.setFinalDate) {
-                      props.setStartDate(
-                        props.defaultStartDate ? props.defaultStartDate : ''
-                      )
-                      props.setFinalDate(
-                        props.defaultFinalDate ? props.defaultFinalDate : ''
-                      )
-                      setDateFilter(
-                        new Date(`${props.defaultStartDate}T00:00:00`)
-                      )
-                      setFinalDateFilter(
-                        new Date(`${props.defaultFinalDate}T00:00:00`)
-                      )
-                    }
-
-                    if (props.setTotalItems) props.setTotalItems(0)
-                    if (props.setStatusOrders) props.setStatusOrders('')
-                  }}
-                  icon={<IconDelete />}
-                />,
-              ]}
-            />
           </div>
+        ) : (
+          <div />
+        )}
+        <div className="w-45 pt7 fr z-0">
+          <ButtonGroup
+            buttons={[
+              // eslint-disable-next-line react/jsx-key
+              <ButtonWithIcon
+                isActiveOfGroup
+                onClick={() => changesValuesTable()}
+                icon={<IconFilter />}
+              >
+                {<FormattedMessage id="admin/table.title-filter" />}
+              </ButtonWithIcon>,
+              // eslint-disable-next-line react/jsx-key
+              <ButtonWithIcon
+                isActiveOfGroup={false}
+                onClick={() => {
+                  setDataFilter([])
+                  setQuery({ sellerName: undefined })
+                  props.setSellerId('')
+                  setStatusfilter([])
+                  setClearFilter(true)
+                  if (props.setStartDate && props.setFinalDate) {
+                    props.setStartDate(
+                      props.defaultStartDate ? props.defaultStartDate : ''
+                    )
+                    props.setFinalDate(
+                      props.defaultFinalDate ? props.defaultFinalDate : ''
+                    )
+                    setDateFilter(
+                      new Date(`${props.defaultStartDate}T00:00:00`)
+                    )
+                    setFinalDateFilter(
+                      new Date(`${props.defaultFinalDate}T00:00:00`)
+                    )
+                  }
+
+                  if (props.setTotalItems) props.setTotalItems(0)
+                  if (props.setStatusOrders) props.setStatusOrders('')
+                }}
+                icon={<IconDelete />}
+              />,
+            ]}
+          />
         </div>
       </div>
     </div>

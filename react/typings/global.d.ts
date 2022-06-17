@@ -58,6 +58,7 @@ interface TableData {
   items: any
   schemaTable: SchemaTable[]
   loading: boolean
+  sorting?: any
 }
 
 interface SchemaTable {

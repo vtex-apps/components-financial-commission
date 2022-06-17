@@ -156,23 +156,21 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
         {startDate && finalDate && (
           <div className="mt2">
             <PageBlock>
-              <div className="mt4 mb5-ns">
-                <Filter
-                  startDatePicker={new Date(`${startDate}T00:00:00`)}
-                  finalDatePicker={new Date(`${finalDate}T00:00:00`)}
-                  optionsSelect={optionsSelect}
-                  setStartDate={setStartDate}
-                  setFinalDate={setFinalDate}
-                  defaultStartDate={defaultStartDate}
-                  defaultFinalDate={defaultFinalDate}
-                  setSellerId={setSellerName}
-                  setId={setSellerId}
-                  multiValue={false}
-                  optionsStatus={optionsStatus}
-                  setStatusOrders={setStatusOrders}
-                  disableSelect={Boolean(account)}
-                />
-              </div>
+              <Filter
+                startDatePicker={new Date(`${startDate}T00:00:00`)}
+                finalDatePicker={new Date(`${finalDate}T00:00:00`)}
+                optionsSelect={optionsSelect}
+                setStartDate={setStartDate}
+                setFinalDate={setFinalDate}
+                defaultStartDate={defaultStartDate}
+                defaultFinalDate={defaultFinalDate}
+                setSellerId={setSellerName}
+                setId={setSellerId}
+                multiValue={false}
+                optionsStatus={optionsStatus}
+                setStatusOrders={setStatusOrders}
+                disableSelect={Boolean(account)}
+              />
             </PageBlock>
           </div>
         )}
