@@ -46,7 +46,6 @@ const TableV2: FC<TableData> = (props) => {
             columns={props.hiddenColumn?.length ? hiddenColumns : visibility.visibleColumns}
             highlightOnHover
             sorting={sorting}
-            visi
           >
             <Table.Toolbar>
               <Table.Toolbar.ButtonGroup>
