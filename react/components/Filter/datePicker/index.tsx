@@ -9,8 +9,8 @@ const DatePickerComponent: FC<DatepickerProps> = (props) => {
   const { culture } = useRuntime()
 
   return (
-    <div className="flex-ns">
-      <div className="w-15-ns mb4-s" id="datepicker-left">
+    <div className="flex flex-nowrap">
+      <div id="datepicker-left">
         <DatePicker
           label={<FormattedMessage id="admin/table.title-datepicker-start" />}
           value={
@@ -21,9 +21,10 @@ const DatePickerComponent: FC<DatepickerProps> = (props) => {
           maxDate={addDays(new Date(), -1)}
           onChange={(start: Date) => props.changeStartDate(start)}
           locale={culture.locale}
+          size="small"
         />
       </div>
-      <div className="w-15-ns mr0-s mr4" id="datepicker-right">
+      <div id="datepicker-right">
         <DatePicker
           label={<FormattedMessage id="admin/table.title-datepicker-final" />}
           value={
@@ -34,6 +35,7 @@ const DatePickerComponent: FC<DatepickerProps> = (props) => {
           maxDate={addDays(new Date(), -1)}
           onChange={(final: Date) => props.changeFinalDate(final)}
           locale={culture.locale}
+          size="small"
         />
       </div>
     </div>
