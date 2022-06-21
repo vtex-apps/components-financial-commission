@@ -149,7 +149,7 @@ const Filter: FC<FilterProps> = (props) => {
         </div>
       )}
       {props.optionsStatus ? (
-        <div className="w-100 pt5">
+        <div className="w-100 pt5 mb3">
           <SelectComponent
             options={props.optionsStatus}
             dataFilter={statusFilter}
@@ -163,9 +163,9 @@ const Filter: FC<FilterProps> = (props) => {
       ) : (
         <div className="w-100 pt5" />
       )}
-      <div className="flex-ns w-100 justify-around items-end">
+      <div className="flex-ns w-100 justify-around items-end justify-end">
         {props.startDatePicker && props.finalDatePicker ? (
-          <div className="w-100-ns pt5 pr2">
+          <div className="w-100-ns pt2 pr2">
             <DatePickerComponent
               startDateFilter={startDateFilter}
               startDatePicker={props.startDatePicker}
@@ -186,12 +186,14 @@ const Filter: FC<FilterProps> = (props) => {
                 isActiveOfGroup
                 onClick={() => changesValuesTable()}
                 icon={<IconFilter />}
+                size="small"
               >
                 {<FormattedMessage id="admin/table.title-filter" />}
               </ButtonWithIcon>,
               // eslint-disable-next-line react/jsx-key
               <ButtonWithIcon
                 isActiveOfGroup={false}
+                size="small"
                 onClick={() => {
                   setDataFilter([])
                   setQuery({ sellerName: undefined })
