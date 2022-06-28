@@ -16,6 +16,7 @@ import type { DocumentNode } from 'graphql'
 
 import SellerInvoices from './components/SellerInvoices'
 import SellerOrders from './components/SellerOrders'
+// import SettingsTable from './components/SettingsTable'
 import { Filter } from './components'
 import { status } from './constants'
 
@@ -127,6 +128,7 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
         />
       }
     >
+      {/* <SettingsTable schemaTable={[]} /> */}
       <Modal
         centered
         isOpen={openModal}
