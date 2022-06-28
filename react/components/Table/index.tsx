@@ -32,17 +32,7 @@ const TableV2: FC<TableData> = (props) => {
             columns={props.hiddenColumn?.length ? hiddenColumns : props.schemaTable}
             highlightOnHover
             sorting={sorting}
-<<<<<<< Updated upstream
-          >
-            <Table.Toolbar>
-              <Table.Toolbar.ButtonGroup>
-                <Table.Toolbar.ButtonGroup.Columns {...buttonColumns} />
-              </Table.Toolbar.ButtonGroup>
-            </Table.Toolbar>
-          </Table>
-=======
           />
->>>>>>> Stashed changes
         ) : (
           <EmptyTable />
         )}
