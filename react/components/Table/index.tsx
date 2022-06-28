@@ -5,9 +5,6 @@ import {
   EXPERIMENTAL_useTableMeasures as useTableMeasures,
   Spinner,
   EXPERIMENTAL_useTableSort as useTableSort,
-  EXPERIMENTAL_useTableVisibility as useTableVisibility,
-
-  // EXPERIMENTAL_useCheckboxTree as useColumnsWithCheckboxes
 } from 'vtex.styleguide'
 
 import EmptyTable from '../EmptyTable'
@@ -16,17 +13,6 @@ const TableV2: FC<TableData> = (props) => {
   const measures = useTableMeasures({ size: props.items.length })
   const sorting = useTableSort()
   let hiddenColumns = [...props.schemaTable]
-  const visibility = useTableVisibility({
-    columns: props.schemaTable,
-    hiddenColumns: [],
-  })
-
-  const buttonColumns = {
-    label: 'Toggle visible fields',
-    showAllLabel: 'Show All',
-    hideAllLabel: 'Hide All',
-    visibility,
-  }
 
   if (props.hiddenColumn?.length) {
     hiddenColumns = hiddenColumns.filter((val: any) => !props.hiddenColumn?.includes(val.id))
@@ -43,9 +29,10 @@ const TableV2: FC<TableData> = (props) => {
           <Table
             measures={measures}
             items={props.items}
-            columns={props.hiddenColumn?.length ? hiddenColumns : visibility.visibleColumns}
+            columns={props.hiddenColumn?.length ? hiddenColumns : props.schemaTable}
             highlightOnHover
             sorting={sorting}
+<<<<<<< Updated upstream
           >
             <Table.Toolbar>
               <Table.Toolbar.ButtonGroup>
@@ -53,6 +40,9 @@ const TableV2: FC<TableData> = (props) => {
               </Table.Toolbar.ButtonGroup>
             </Table.Toolbar>
           </Table>
+=======
+          />
+>>>>>>> Stashed changes
         ) : (
           <EmptyTable />
         )}
