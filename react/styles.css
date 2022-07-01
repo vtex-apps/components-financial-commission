@@ -1,14 +1,18 @@
-.btn_external button{
+.btn_external button {
   width: 120px;
 }
 
-.btn_filter button{
+.btn_filter button {
   width: 95%;
   font-size: 15px;
 }
 
-.buttonGroup button{
+.buttonGroup button {
   z-index: 0 !important;
+}
+
+.large {
+  width: 80%;
 }
 
 @media (max-width: 800px) {
@@ -16,11 +20,11 @@
     flex-direction: column;
   }
 
-  .filter_container{
+  .filter_container {
     width: 100%;
     margin-top: 10px;
   }
-  .btn_filter{
-    width: 100%
+  .btn_filter {
+    width: 100%;
   }
 }
