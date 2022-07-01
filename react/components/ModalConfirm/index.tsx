@@ -4,11 +4,14 @@ import { useMutation } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
 import { Alert, Button, Input, ModalDialog, Spinner } from 'vtex.styleguide'
 
+import styles from '../../styles.css'
+
 const ModalConfirm: FC<ModalConfirmData> = (props) => {
   const [email, setEmail] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [validEmail, setValidEmail] = useState(true)
   const [empty, setEmpty] = useState(true)
+  const [alertActive, setAlertActive] = useState(false)
 
   const EMAIL_PATTERN = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 
@@ -137,14 +140,24 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
           </div>
         </div>
       </ModalDialog>
-      {!props.disabled ? (
-        ''
-      ) : (
-        <Alert type="warning">
-          Filter orders by invoiced status to enable CREATE INVOICE button
-        </Alert>
-      )}
-      <div className="mt3 mb5 flex justify-center items-end">
+
+      <div className="mb5 flex justify-between items-center">
+        {!props.disabled || alertActive ? (
+          ''
+        ) : (
+          <div className={`ph5 ${styles.large}`}>
+            <Alert
+              type="warning"
+              onClose={() => {
+                console.info('Close!!!!')
+                setAlertActive(true)
+              }}
+            >
+              Filter orders by invoiced status to enable CREATE INVOICE button
+            </Alert>
+          </div>
+        )}
+
         <Button
           onClick={() => {
             setIsModalOpen(!isModalOpen)
