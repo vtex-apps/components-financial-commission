@@ -20,6 +20,7 @@ const Filter: FC<FilterProps> = (props) => {
   const { setQuery, query } = useRuntime()
   const [clearFilter, setClearFilter] = useState(false)
 
+
   const getDate = (date: string) => {
     const dateConverter = new Date(date)
     const month = dateConverter.getMonth() + 1
@@ -35,6 +36,7 @@ const Filter: FC<FilterProps> = (props) => {
     let stringSellers = ''
     let stringSellersName = ''
     let countTotalItems = 0
+    let queryObj: any = {}
 
     setClearFilter(false)
 
@@ -52,7 +54,10 @@ const Filter: FC<FilterProps> = (props) => {
         statusFilter.forEach((status) => {
           stringStatus += `${status.label},`
         })
-        props.setStatusOrders(stringStatus.slice(0, -1))
+        const statusOrder = stringStatus.slice(0, -1)
+        props.setStatusOrders(statusOrder)
+
+        queryObj["status"] = statusOrder
       } else {
         props.setStatusOrders('')
       }
@@ -69,19 +74,28 @@ const Filter: FC<FilterProps> = (props) => {
     stringSellers = stringSellers.substring(0, stringSellers.length - 1)
     stringSellersName = stringSellersName.slice(0, -1)
     stringSellersName = encodeURIComponent(stringSellersName)
-    if (stringSellersName) setQuery({ sellerName: stringSellersName })
+    if (stringSellersName) queryObj["sellerName"] = stringSellersName
 
     if (startDateFilter !== '' && props.setStartDate) {
       const newDateStart = getDate(startDateFilter.toString())
 
       props.setStartDate(newDateStart)
+      queryObj["startDate"] = newDateStart
+    } else {
+      let stringStart = props.startDatePicker ? getDate(props.startDatePicker.toString()) : ''
+      queryObj["startDate"] = stringStart
     }
 
     if (finalDateFilter !== '' && props.setFinalDate) {
       const newDateFinal = getDate(finalDateFilter.toString())
 
       props.setFinalDate(newDateFinal)
+      queryObj["finalDate"] = newDateFinal
+    } else {
+      let stringFinal = props.finalDatePicker ? getDate(props.finalDatePicker.toString()) : ''
+      queryObj["finalDate"] = stringFinal
     }
+    setQuery(queryObj)
 
     if (!props.setTotalItems) return
     props.setTotalItems(countTotalItems)
@@ -90,6 +104,23 @@ const Filter: FC<FilterProps> = (props) => {
   useEffect(() => {
     if (!query?.sellerName) return
     // eslint-disable-next-line vtex/prefer-early-return
+    if (query.status) {
+      const arrayStatus = query.status.split(",")
+      const arrayStatusFilter: any = []
+      arrayStatus.forEach((statusItem) => {
+        arrayStatusFilter.push({
+          label: statusItem,
+          value: { id: statusItem, name: statusItem }
+        })
+      })
+      setStatusfilter(arrayStatusFilter)
+    }
+
+    if (query.finalDate && query.startDate) {
+      setDateFilter(new Date(query.startDate))
+      setFinalDateFilter(new Date(query.finalDate))
+    }
+
     if (props.optionsSelect.length > 0 && !clearFilter) {
       const queryData = query.sellerName.split(',')
       const filterQueryData: any = []
@@ -196,7 +227,7 @@ const Filter: FC<FilterProps> = (props) => {
                 size="small"
                 onClick={() => {
                   setDataFilter([])
-                  setQuery({ sellerName: undefined })
+                  setQuery({ sellerName: undefined, startDate: undefined, finalDate: undefined, status: undefined })
                   props.setSellerId('')
                   setStatusfilter([])
                   setClearFilter(true)
