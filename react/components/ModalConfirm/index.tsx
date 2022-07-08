@@ -149,7 +149,6 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
             <Alert
               type="warning"
               onClose={() => {
-                console.info('Close!!!!')
                 setAlertActive(true)
               }}
             >
