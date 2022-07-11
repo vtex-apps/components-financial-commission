@@ -7,7 +7,9 @@ const EmptyTable: FC = () => {
   return (
     <div className="mt5">
       <EmptyState title={<FormattedMessage id="admin/table.empty-state" />}>
-        <p><FormattedMessage id="admin/table.empty-state-title" /></p>
+        <p>
+          <FormattedMessage id="admin/table.empty-state-title" />
+        </p>
       </EmptyState>
     </div>
   )

@@ -11,7 +11,6 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [validEmail, setValidEmail] = useState(true)
   const [empty, setEmpty] = useState(true)
-  const [alertActive, setAlertActive] = useState(false)
 
   const EMAIL_PATTERN = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 
@@ -141,32 +140,29 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
         </div>
       </ModalDialog>
 
-      <div className="mb5 flex justify-between items-center">
-        {!props.disabled || alertActive ? (
-          ''
-        ) : (
-          <div className={`ph5 ${styles.large}`}>
-            <Alert
-              type="warning"
-              onClose={() => {
-                setAlertActive(true)
-              }}
-            >
-              Filter orders by invoiced status to enable CREATE INVOICE button
-            </Alert>
-          </div>
-        )}
+      {props.integration !== 'internal' ? null : (
+        <div className="mb5 flex justify-between items-center">
+          {!props.disabled ? (
+            ''
+          ) : (
+            <div className={`ph5 ${styles.large}`}>
+              <Alert type="warning">
+                Filter orders by invoiced status to enable CREATE INVOICE button
+              </Alert>
+            </div>
+          )}
+          <Button
+            onClick={() => {
+              setIsModalOpen(!isModalOpen)
+            }}
+            disabled={props.disabled}
+            variation="success"
+          >
+            {props.buttonMessage}
+          </Button>
+        </div>
+      )}
 
-        <Button
-          onClick={() => {
-            setIsModalOpen(!isModalOpen)
-          }}
-          disabled={props.disabled}
-          variation="success"
-        >
-          {props.buttonMessage}
-        </Button>
-      </div>
       <div className="mb5 flex justify-end items-end" />
     </>
   )
