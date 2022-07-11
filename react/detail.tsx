@@ -16,6 +16,7 @@ import type { DocumentNode } from 'graphql'
 
 import SellerInvoices from './components/SellerInvoices'
 import SellerOrders from './components/SellerOrders'
+import Orders from './components/Orders'
 // import SettingsTable from './components/SettingsTable'
 import { Filter } from './components'
 import { status } from './constants'
@@ -26,7 +27,7 @@ interface DetailProps {
   ordersQuery: DocumentNode
   invoiceMutation: DocumentNode
   invoicesQuery: DocumentNode
-  settingsQuery: DocumentNode
+  settingsQuery?: DocumentNode
 }
 
 const CommissionReportDetail: FC<DetailProps> = (props) => {
@@ -187,20 +188,36 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
             onClick={() => setTabs(1)}
           >
             <div className="mt5">
-              <SellerOrders
-                ordersQuery={ordersQuery}
-                account={account}
-                sellerName={sellerName}
-                startDate={startDate}
-                finalDate={finalDate}
-                statusOrders={statusOrders}
-                setDataRate={setDataRate}
-                sellerId={sellerId}
-                invoiceMutation={invoiceMutation}
-                setOpenModal={setOpenModal}
-                openModal={openModal}
-                settingsQuery={settingsQuery}
-              />
+              {settingsQuery ? (
+                <SellerOrders
+                  ordersQuery={ordersQuery}
+                  account={account}
+                  sellerName={sellerName}
+                  startDate={startDate}
+                  finalDate={finalDate}
+                  statusOrders={statusOrders}
+                  setDataRate={setDataRate}
+                  sellerId={sellerId}
+                  invoiceMutation={invoiceMutation}
+                  setOpenModal={setOpenModal}
+                  openModal={openModal}
+                  settingsQuery={settingsQuery}
+                />
+              ) : (
+                <Orders
+                  ordersQuery={ordersQuery}
+                  account={account}
+                  sellerName={sellerName}
+                  startDate={startDate}
+                  finalDate={finalDate}
+                  statusOrders={statusOrders}
+                  setDataRate={setDataRate}
+                  sellerId={sellerId}
+                  invoiceMutation={invoiceMutation}
+                  setOpenModal={setOpenModal}
+                  openModal={openModal}
+                />
+              )}
             </div>
           </Tab>
           <Tab
