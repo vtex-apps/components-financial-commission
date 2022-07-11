@@ -63,11 +63,14 @@ const SellerInvoices: FC<DetailProps> = ({
   }, [query, sellerName])
 
   useEffect(() => {
-    getDataInvoices()
     if (dataInvoices) {
       setDataTableInvoice(dataInvoices.invoicesBySeller.data)
       setTotalItems(dataInvoices.invoicesBySeller.pagination.total)
+
+      return
     }
+
+    getDataInvoices()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataInvoices, sellerName])
 

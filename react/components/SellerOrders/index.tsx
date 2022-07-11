@@ -8,7 +8,7 @@ import {
 } from 'vtex.styleguide'
 import { useRuntime } from 'vtex.render-runtime'
 import { FormattedMessage } from 'react-intl'
-import { useLazyQuery } from 'react-apollo'
+import { useLazyQuery, useQuery } from 'react-apollo'
 import type { DocumentNode } from 'graphql'
 
 import TableComponent from '../Table'
@@ -20,6 +20,7 @@ interface DetailProps {
   account?: string
   ordersQuery: DocumentNode
   invoiceMutation: DocumentNode
+  settingsQuery: DocumentNode
   sellerName?: string
   startDate?: string
   finalDate?: string
@@ -34,6 +35,7 @@ const SellerOrders: FC<DetailProps> = ({
   account,
   sellerName,
   ordersQuery,
+  settingsQuery,
   startDate,
   finalDate,
   statusOrders,
@@ -50,6 +52,18 @@ const SellerOrders: FC<DetailProps> = ({
   const [itemFrom, setItemFrom] = useState(1)
   const [itemTo, setItemTo] = useState(20)
   const [totalItems, setTotalItems] = useState(0)
+  const [integration, setIntegration] = useState('')
+
+  const { data: settings } = useQuery(settingsQuery, {
+    ssr: false,
+    pollInterval: 0,
+  })
+
+  useEffect(() => {
+    if (settings) {
+      setIntegration(settings.getSettings.integration)
+    }
+  }, [settings])
 
   const [
     getDataOrders,
@@ -220,6 +234,7 @@ const SellerOrders: FC<DetailProps> = ({
     <PageBlock>
       {account ? null : (
         <ModalConfirm
+          integration={integration}
           invoiceMutation={invoiceMutation}
           disabled={
             !(statusOrders === 'invoiced' && dataOrders?.orders.data.length)

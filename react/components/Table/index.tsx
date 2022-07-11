@@ -15,7 +15,9 @@ const TableV2: FC<TableData> = (props) => {
   let hiddenColumns = [...props.schemaTable]
 
   if (props.hiddenColumn?.length) {
-    hiddenColumns = hiddenColumns.filter((val: any) => !props.hiddenColumn?.includes(val.id))
+    hiddenColumns = hiddenColumns.filter(
+      (val: any) => !props.hiddenColumn?.includes(val.id)
+    )
   }
 
   if (sorting.sorted.by && sorting.sorted.order) {
@@ -29,7 +31,9 @@ const TableV2: FC<TableData> = (props) => {
           <Table
             measures={measures}
             items={props.items}
-            columns={props.hiddenColumn?.length ? hiddenColumns : props.schemaTable}
+            columns={
+              props.hiddenColumn?.length ? hiddenColumns : props.schemaTable
+            }
             highlightOnHover
             sorting={sorting}
           />

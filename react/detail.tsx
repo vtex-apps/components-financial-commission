@@ -26,6 +26,7 @@ interface DetailProps {
   ordersQuery: DocumentNode
   invoiceMutation: DocumentNode
   invoicesQuery: DocumentNode
+  settingsQuery: DocumentNode
 }
 
 const CommissionReportDetail: FC<DetailProps> = (props) => {
@@ -35,6 +36,7 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
     invoiceMutation,
     dataSellers,
     invoicesQuery,
+    settingsQuery,
   } = props
 
   const [startDate, setStartDate] = useState('')
@@ -197,6 +199,7 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
                 invoiceMutation={invoiceMutation}
                 setOpenModal={setOpenModal}
                 openModal={openModal}
+                settingsQuery={settingsQuery}
               />
             </div>
           </Tab>
