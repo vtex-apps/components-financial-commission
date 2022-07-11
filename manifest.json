@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "components-financial-commission",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "title": "Frontend components for financial commission app",
   "description": "Frontend components for financial commission app",
   "builders": {
@@ -12,9 +12,7 @@
   "dependencies": {
     "vtex.styleguide": "9.x"
   },
-  "registries": [
-    "smartcheckout"
-  ],
+  "registries": ["smartcheckout"],
   "policies": [],
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }
