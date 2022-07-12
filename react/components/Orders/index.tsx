@@ -1,20 +1,20 @@
+import type { DocumentNode } from 'graphql'
 import type { FC } from 'react'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLazyQuery } from 'react-apollo'
+import { FormattedMessage } from 'react-intl'
+import { useRuntime } from 'vtex.render-runtime'
 import {
+  ButtonWithIcon,
+  IconVisibilityOff,
   PageBlock,
   Tag,
-  IconVisibilityOff,
-  ButtonWithIcon,
 } from 'vtex.styleguide'
-import { useRuntime } from 'vtex.render-runtime'
-import { FormattedMessage } from 'react-intl'
-import { useLazyQuery } from 'react-apollo'
-import type { DocumentNode } from 'graphql'
 
-import TableComponent from '../Table'
-import ModalConfirm from '../ModalConfirm'
-import PaginationComponent from '../Table/pagination'
 import { status } from '../../constants'
+import ModalConfirm from '../ModalConfirm'
+import TableComponent from '../Table'
+import PaginationComponent from '../Table/pagination'
 
 interface DetailProps {
   account?: string
@@ -28,6 +28,8 @@ interface DetailProps {
   sellerId?: string
   setOpenModal?: (open: boolean) => void
   openModal?: boolean
+  dataTableOrders: Order[]
+  setDataTableOrders: (data: Order[]) => void
 }
 
 const Orders: FC<DetailProps> = ({
@@ -42,9 +44,10 @@ const Orders: FC<DetailProps> = ({
   invoiceMutation,
   setOpenModal,
   openModal,
+  dataTableOrders,
+  setDataTableOrders,
 }) => {
   const { query } = useRuntime()
-  const [dataTableOrders, setDataTableOrders] = useState<any>([])
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [itemFrom, setItemFrom] = useState(1)
