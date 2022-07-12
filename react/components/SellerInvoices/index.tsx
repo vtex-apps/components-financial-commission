@@ -3,7 +3,7 @@
 import type { DocumentNode } from 'graphql'
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
-import { useLazyQuery } from 'react-apollo'
+import { useQuery } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
 import { PageBlock, Tag } from 'vtex.styleguide'
@@ -18,6 +18,8 @@ interface DetailProps {
   sellerName?: string
   startDate?: string
   finalDate?: string
+  dataTableInvoice: Invoice[]
+  setDataTableInvoice: (data: Invoice[]) => void
 }
 
 const SellerInvoices: FC<DetailProps> = ({
@@ -25,52 +27,46 @@ const SellerInvoices: FC<DetailProps> = ({
   invoicesQuery,
   startDate,
   finalDate,
+  dataTableInvoice,
+  setDataTableInvoice,
 }) => {
   const { query } = useRuntime()
-  const [dataTableInvoice, setDataTableInvoice] = useState<any>([])
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [itemFrom, setItemFrom] = useState(1)
   const [itemTo, setItemTo] = useState(20)
   const [totalItems, setTotalItems] = useState(0)
 
-  const [getDataInvoices, { data: dataInvoices }] = useLazyQuery(
-    invoicesQuery,
-    {
-      ssr: false,
-      pollInterval: 0,
-      variables: {
-        sellerInvoiceParams: {
-          sellerName,
-          dates: {
-            startDate,
-            endDate: finalDate,
-          },
-          pagination: {
-            page,
-            pageSize,
-          },
+  const { data: dataInvoices } = useQuery(invoicesQuery, {
+    ssr: false,
+    pollInterval: 0,
+    variables: {
+      sellerInvoiceParams: {
+        sellerName,
+        dates: {
+          startDate,
+          endDate: finalDate,
+        },
+        pagination: {
+          page,
+          pageSize,
         },
       },
-    }
-  )
+    },
+  })
 
   useEffect(() => {
     if (sellerName === '' && !query?.sellerName) {
       setDataTableInvoice([])
       setTotalItems(0)
     }
-  }, [query, sellerName])
+  }, [query, sellerName, setDataTableInvoice])
 
   useEffect(() => {
     if (dataInvoices) {
       setDataTableInvoice(dataInvoices.invoicesBySeller.data)
       setTotalItems(dataInvoices.invoicesBySeller.pagination.total)
-
-      return
     }
-
-    getDataInvoices()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataInvoices, sellerName])
 

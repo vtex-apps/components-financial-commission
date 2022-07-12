@@ -7,6 +7,14 @@ interface Invoice {
   totalizers?: Totalizers
 }
 
+interface Order {
+  orderId: string
+  sellerOrderId: string
+  totalComission: number
+  totalOrderRate: number
+  totalOrderValue: number
+}
+
 interface DataFilter {
   label: string
   value: {

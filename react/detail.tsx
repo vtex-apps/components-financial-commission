@@ -1,22 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/display-name */
+import type { DocumentNode } from 'graphql'
 import type { FC } from 'react'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
+  Divider,
   Layout,
-  Tab,
-  Tabs,
+  Modal,
   PageBlock,
   PageHeader,
-  Divider,
-  Modal,
+  Tab,
+  Tabs,
 } from 'vtex.styleguide'
-import { FormattedMessage } from 'react-intl'
-import type { DocumentNode } from 'graphql'
 
+import Orders from './components/Orders'
 import SellerInvoices from './components/SellerInvoices'
 import SellerOrders from './components/SellerOrders'
-import Orders from './components/Orders'
 // import SettingsTable from './components/SettingsTable'
 import { Filter } from './components'
 import { status } from './constants'
@@ -52,6 +52,8 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
   const [dateRate, setDataRate] = useState<any>([])
   const [optionsStatus, setOptionsStatus] = useState<any>([])
   const [statusOrders, setStatusOrders] = useState('')
+  const [tableOrders, setTableOrders] = useState<any>([])
+  const [tableInvoices, setTableInvoices] = useState<any>([])
 
   const formatDate = (valueDate: number) => {
     const validateDate = valueDate <= 9 ? `0${valueDate}` : valueDate
@@ -202,6 +204,8 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
                   setOpenModal={setOpenModal}
                   openModal={openModal}
                   settingsQuery={settingsQuery}
+                  dataTableOrders={tableOrders}
+                  setDataTableOrders={setTableOrders}
                 />
               ) : (
                 <Orders
@@ -214,8 +218,8 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
                   setDataRate={setDataRate}
                   sellerId={sellerId}
                   invoiceMutation={invoiceMutation}
-                  setOpenModal={setOpenModal}
-                  openModal={openModal}
+                  dataTableOrders={tableOrders}
+                  setDataTableOrders={setTableOrders}
                 />
               )}
             </div>
@@ -232,6 +236,8 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
                 sellerName={sellerName}
                 startDate={startDate}
                 finalDate={finalDate}
+                dataTableInvoice={tableInvoices}
+                setDataTableInvoice={setTableInvoices}
               />
             </div>
           </Tab>
