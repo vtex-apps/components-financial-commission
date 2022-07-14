@@ -105,6 +105,28 @@ interface FilterProps {
   disableSelect?: boolean
 }
 
+interface StatsTotalizer {
+  label: any
+  value: any
+  iconBackgroundColor?: string
+  icon?: any
+}
+
+interface DataSeller {
+  id: string
+  name: string
+  ordersCount: string
+  totalComission: string
+  totalOrderValue: string
+}
+
+interface DataDashboardSeller {
+  account: string
+  id: string
+  name: string
+  statistics: DataStatistics
+}
+
 interface SellerSelect {
   value: {
     id: string
