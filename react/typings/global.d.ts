@@ -148,3 +148,16 @@ interface PaginationProps {
   changeRows: (row: number) => void
   onPrevClick: () => void
 }
+
+interface SettingsSellers {
+  id: string
+  name: string
+}
+
+interface DataSeller {
+  id: string
+  name: string
+  ordersCount: string
+  totalComission: string
+  totalOrderValue: string
+}
