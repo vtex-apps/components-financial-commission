@@ -10,6 +10,7 @@ const SelectComponent: FC<SelectProps> = (props) => {
         label={props.customLabel}
         options={props.options}
         onChange={(values: DataFilter[] | DataFilter) => {
+          console.info('Array.isArray(values) ', Array.isArray(values))
           if (Array.isArray(values)) props.setDataFilter(values)
           else props.setDataFilter([values])
         }}

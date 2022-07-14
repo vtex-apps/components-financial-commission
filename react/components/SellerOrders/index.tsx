@@ -68,10 +68,16 @@ const SellerOrders: FC<DetailProps> = ({
     }
   }, [settings])
 
-  const [
-    getDataOrders,
-    { data: dataOrders, loading: loadingDataOrders },
-  ] = useLazyQuery(ordersQuery, {
+  console.info('datos de consulta getOrders ', {
+    dateStart: startDate,
+    dateEnd: finalDate,
+    sellerName,
+    page,
+    perpage: pageSize,
+    status: statusOrders,
+  })
+
+  const { data: dataOrders, loading: loadingDataOrders } = useQuery(ordersQuery, {
     ssr: false,
     pollInterval: 0,
     variables: {
@@ -200,7 +206,6 @@ const SellerOrders: FC<DetailProps> = ({
   }, [query, sellerName])
 
   useEffect(() => {
-    getDataOrders()
     // eslint-disable-next-line vtex/prefer-early-return
     if (dataOrders) {
       const dataTable: any = []
@@ -227,6 +232,7 @@ const SellerOrders: FC<DetailProps> = ({
           },
         })
       })
+      console.info('ajuste tabla orderssssss ', dataTable)
       setDataTableOrders(dataTable)
       setTotalItems(dataOrders.orders.paging.total)
     }
