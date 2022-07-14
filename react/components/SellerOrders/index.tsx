@@ -1,15 +1,15 @@
-import type { DocumentNode } from 'graphql'
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
-import { useQuery } from 'react-apollo'
-import { FormattedMessage } from 'react-intl'
-import { useRuntime } from 'vtex.render-runtime'
 import {
   ButtonWithIcon,
   IconVisibilityOff,
   PageBlock,
   Tag,
 } from 'vtex.styleguide'
+import { useRuntime } from 'vtex.render-runtime'
+import { FormattedMessage } from 'react-intl'
+import { useQuery } from 'react-apollo'
+import type { DocumentNode } from 'graphql'
 
 import { status } from '../../constants'
 import ModalConfirm from '../ModalConfirm'
@@ -69,15 +69,6 @@ const SellerOrders: FC<DetailProps> = ({
   }, [settings])
 
   console.info('datos de consulta getOrders ', {
-    dateStart: startDate,
-    dateEnd: finalDate,
-    sellerName,
-    page,
-    perpage: pageSize,
-    status: statusOrders,
-  })
-
-  console.info('************************************ ', {
     dateStart: startDate,
     dateEnd: finalDate,
     sellerName,
