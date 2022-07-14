@@ -15,6 +15,13 @@ interface DataFilter {
   }
 }
 
+interface DateFilter {
+  startDateFilter: Date
+  finalDateFilter: Date
+  dataFilter: DataFilter[]
+  statusFilter: any[]
+}
+
 interface CellRendererProps {
   data: string
   density: string
@@ -80,13 +87,14 @@ interface CellRendererProps {
 }
 
 interface FilterProps {
-  startDatePicker?: Date
-  finalDatePicker?: Date
+  defaultDate?: {
+    startDatePicker: Date
+    finalDatePicker: Date
+    defaultStartDate: string
+    defaultFinalDate: string
+  }
   optionsSelect: SellerSelect[]
-  setStartDate?: (v: string) => void
-  setFinalDate?: (v: string) => void
-  defaultStartDate?: string
-  defaultFinalDate?: string
+  filterDates?: (v: string, x: string) => void
   setTotalItems?: (v: number) => void
   setPages?: (v: number) => void
   setSellerId: (v: string) => void
@@ -122,12 +130,9 @@ interface DataFilter {
 }
 
 interface DatepickerProps {
-  startDateFilter: Date | string
-  startDatePicker: Date | undefined
-  changeStartDate: (start: Date) => void
-  finalDateFilter: Date | string
-  finalDatePicker: Date | undefined
-  changeFinalDate: (final: Date) => void
+  startDatePicker: Date
+  finalDatePicker: Date
+  changeDate: (date: Date, type: string) => void
 }
 
 interface PaginationProps {

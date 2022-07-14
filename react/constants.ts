@@ -35,3 +35,42 @@ export const status: StatusOptions = {
     fontColor: '#FFF',
   },
 }
+
+const formatDate = (valueDate: number) => {
+  const validateDate = valueDate <= 9 ? `0${valueDate}` : valueDate
+
+  return validateDate
+}
+
+const defaultDate = new Date()
+let defaultStart: Date = new Date()
+const defaultfinal = new Date(
+  defaultDate.getFullYear(),
+  defaultDate.getMonth(),
+  defaultDate.getDate()
+)
+
+const defaultFinalString = `${defaultfinal.getFullYear()}-${formatDate(
+  defaultfinal.getMonth() + 1
+)}-${formatDate(defaultfinal.getDate())}`
+
+if (defaultDate.getDate() <= 1) {
+  defaultStart = defaultfinal
+} else {
+  defaultStart = new Date(
+    defaultDate.getFullYear(),
+    defaultDate.getMonth(),
+    1
+  )
+}
+
+const defaultStartString = `${defaultStart.getFullYear()}-${formatDate(
+  defaultStart.getMonth() + 1
+)}-${formatDate(defaultStart.getDate())}`
+
+export const dateDefaultPicker = {
+  startDatePicker: new Date(`${defaultStartString}T00:00:00`),
+  finalDatePicker: new Date(`${defaultFinalString}T00:00:00`),
+  defaultStartDate: defaultStartString,
+  defaultFinalDate: defaultFinalString
+}
