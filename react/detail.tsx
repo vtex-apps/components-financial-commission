@@ -19,7 +19,7 @@ import SellerInvoices from './components/SellerInvoices'
 import SellerOrders from './components/SellerOrders'
 // import SettingsTable from './components/SettingsTable'
 import { Filter } from './components'
-import { status } from './constants'
+import { status, dateDefaultPicker } from './constants'
 
 interface DetailProps {
   account?: string
@@ -42,8 +42,6 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
 
   const [startDate, setStartDate] = useState('')
   const [finalDate, setFinalDate] = useState('')
-  const [defaultStartDate, setDefaultStartDate] = useState('')
-  const [defaultFinalDate, setDefaultFinalDate] = useState('')
   const [optionsSelect, setOptionsSelect] = useState<DataFilter[]>([])
   const [sellerName, setSellerName] = useState(account ?? '')
   const [sellerId, setSellerId] = useState('')
@@ -121,9 +119,12 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
 
     setStartDate(defaultStartString)
     setFinalDate(defaultFinalString)
-    setDefaultStartDate(defaultStartString)
-    setDefaultFinalDate(defaultFinalString)
   }, [])
+
+  const filterDates = (start: string, final: string) => {
+    setStartDate(start)
+    setFinalDate(final)
+  }
 
   return (
     <Layout
@@ -164,13 +165,9 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
           <div className="mt2">
             <PageBlock>
               <Filter
-                startDatePicker={new Date(`${startDate}T00:00:00`)}
-                finalDatePicker={new Date(`${finalDate}T00:00:00`)}
+                defaultDate={dateDefaultPicker}
                 optionsSelect={optionsSelect}
-                setStartDate={setStartDate}
-                setFinalDate={setFinalDate}
-                defaultStartDate={defaultStartDate}
-                defaultFinalDate={defaultFinalDate}
+                filterDates={filterDates}
                 setSellerId={setSellerName}
                 setId={setSellerId}
                 multiValue={false}
