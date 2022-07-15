@@ -1,3 +1,5 @@
+declare module 'vtex.render-runtime'
+
 interface Invoice {
   comment?: string
   invoiceCreateDate?: string
@@ -183,3 +185,5 @@ interface DataSeller {
   totalComission: string
   totalOrderValue: string
 }
+
+type SellerSettingsToken = Partial<TokenConfiguration>
