@@ -77,15 +77,6 @@ const SellerOrders: FC<DetailProps> = ({
     status: statusOrders,
   })
 
-  console.info('************************************ ', {
-    dateStart: startDate,
-    dateEnd: finalDate,
-    sellerName,
-    page,
-    perpage: pageSize,
-    status: statusOrders,
-  })
-
   const { data: dataOrders, loading: loadingDataOrders } = useQuery(ordersQuery, {
     ssr: false,
     pollInterval: 0,
