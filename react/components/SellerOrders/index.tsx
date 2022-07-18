@@ -1,7 +1,7 @@
 import type { DocumentNode } from 'graphql'
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
-import { useLazyQuery, useQuery } from 'react-apollo'
+import { useQuery } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
 import {
@@ -69,6 +69,15 @@ const SellerOrders: FC<DetailProps> = ({
   }, [settings])
 
   console.info('datos de consulta getOrders ', {
+    dateStart: startDate,
+    dateEnd: finalDate,
+    sellerName,
+    page,
+    perpage: pageSize,
+    status: statusOrders,
+  })
+
+  console.info('************************************ ', {
     dateStart: startDate,
     dateEnd: finalDate,
     sellerName,
@@ -207,6 +216,7 @@ const SellerOrders: FC<DetailProps> = ({
 
   useEffect(() => {
     // eslint-disable-next-line vtex/prefer-early-return
+    console.info('dataOrders aunque estan siendo borrados ', dataOrders)
     if (dataOrders) {
       const dataTable: any = []
 
@@ -233,7 +243,10 @@ const SellerOrders: FC<DetailProps> = ({
         })
       })
       console.info('ajuste tabla orderssssss ', dataTable)
-      setDataTableOrders(dataTable)
+      if (sellerName === "")
+        setDataTableOrders([])
+      else
+        setDataTableOrders(dataTable)
       setTotalItems(dataOrders.orders.paging.total)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
