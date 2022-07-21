@@ -4,10 +4,8 @@ import React, { useState, useEffect } from 'react'
 import {
   Layout,
   PageHeader,
-  Input,
   Button,
   EXPERIMENTAL_Select as Select,
-  Toggle,
   Box,
   EXPERIMENTAL_Table as Table,
   Alert,
@@ -16,17 +14,9 @@ import { FormattedMessage } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
 import { useMutation, useQuery } from 'react-apollo'
 import { DocumentNode } from 'graphql'
+import { TokenAuth } from './components'
 
 const DATE_CUT_OPTIONS = [
-  /*
-  {
-    value: 7,
-    label: 'Weekly',
-  },
-  {
-    value: 15,
-    label: 'Bi-weekly',
-  }, */
   {
     value: 1,
     label: 'Daily',
@@ -56,20 +46,17 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
 
   const { navigate, route, query } = useRuntime()
 
-  const [
-    sellerSettingsToken,
-    setSellerSettingsToken,
-  ] = useState<SellerSettingsToken>({})
-
   const [selectedValue, setSelectValue] = useState<any | null>()
   const [openAlert, setOpenAlert] = useState(false)
   const [infoSettings, setInfoSettings] = useState<any>([])
+  const [tokenSeller, setTokenSeller] = useState<any>({})
 
   const { data: getToken } = useQuery(getTokenQuery, {
     ssr: false,
     pollInterval: 0,
+    fetchPolicy: 'no-cache',
     variables: {
-      sellerId: route.params.sellerId,
+      accountId: route.params.sellerId,
     },
   })
 
@@ -81,24 +68,12 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
     ssr: false,
     pollInterval: 0,
     variables: {
-      id: sellerSettingsToken.name,
+      id: tokenSeller.getToken ? tokenSeller.getToken.name : '',
     },
   })
 
-  const [
-    authenticationToken,
-    { data: createToken, loading: loadingCreateToken },
-  ] = useMutation(createTokenMutation)
-
-  const [editTokenMutation] = useMutation(editToken)
-
-  const handleCreateToken = () => {
-    console.info('create token ', { variables: { accountId: route.params.sellerId } })
-    authenticationToken({ variables: { accountId: route.params.sellerId } })
-  }
 
   const handleSaveBilling = () => {
-    // eslint-disable-next-line vtex/prefer-early-return
     if (selectedValue) {
       const nowDate = new Date()
       let date = ''
@@ -144,11 +119,10 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
         date = `${nowDate.getFullYear()}-${month}-${day}`
         lastDateString = `${nowDate.getFullYear()}-${month}-${finalDay}`
       }
-
       createSettings({
         variables: {
           settingsData: {
-            sellerName: sellerSettingsToken.name,
+            sellerName: query.name,
             startDate: date,
             endDate: lastDateString,
             billingCycle: selectedValue.label,
@@ -170,27 +144,11 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
 
       setOpenAlert(true)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataSettings])
-
-  const handleIsEnable = () => {
-    setSellerSettingsToken({
-      ...sellerSettingsToken,
-      enabled: !sellerSettingsToken.enabled,
-      authenticationToken: !sellerSettingsToken.enabled
-        ? sellerSettingsToken.authenticationToken
-        : '',
-    })
-    editTokenMutation({
-      variables: {
-        sellerId: route.params.sellerId,
-        isEnable: !sellerSettingsToken.enabled,
-      },
-    })
-  }
 
   useEffect(() => {
     if (settings) {
+      console.info('settings ', settings)
       setInfoSettings([
         {
           idbilling: settings.getSettings.billingCycle,
@@ -206,32 +164,8 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
   }, [settings])
 
   useEffect(() => {
-    // eslint-disable-next-line vtex/prefer-early-return
-    if (getToken) {
-      const tokenData: SellerSettingsToken = {
-        authenticationToken: getToken.getToken.autheticationToken,
-        name: getToken.getToken.name,
-        enabled: getToken.getToken.enabled,
-      }
-
-      setSellerSettingsToken(tokenData)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (getToken) setTokenSeller(getToken)
   }, [getToken])
-
-  useEffect(() => {
-    console.info('createToken ', createToken, ' sellerSettingsToken ', !sellerSettingsToken.authenticationToken)
-    // eslint-disable-next-line vtex/prefer-early-return
-    if (createToken && !sellerSettingsToken.authenticationToke) {
-      const newToken = createToken.createToken.autheticationToken
-
-      setSellerSettingsToken({
-        ...sellerSettingsToken,
-        authenticationToken: newToken,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createToken])
 
   return (
     <Layout
@@ -252,39 +186,9 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
         />
       }
     >
-      <div className="mt7">
-        <Box>
-          <h2 className="mt0 mb6">Autentication Token</h2>
-          <div className="mt2 mb8">
-            <Toggle
-              label={sellerSettingsToken.enabled ? 'Activated' : 'Deactivated'}
-              checked={sellerSettingsToken.enabled}
-              semantic
-              onChange={() => handleIsEnable()}
-            />
-          </div>
-          <div className="mb5">
-            <Input
-              placeholder="Token"
-              readOnly
-              label="Seller Token"
-              value={sellerSettingsToken.authenticationToken}
-            />
-          </div>
-          <div className="mb4">
-            <span className="mb4">
-              <Button
-                variation="primary"
-                loading={loadingCreateToken}
-                onClick={() => handleCreateToken()}
-                disabled={!sellerSettingsToken.enabled}
-              >
-                {<FormattedMessage id="admin/form-settings.button-new" />}
-              </Button>
-            </span>
-          </div>
-        </Box>
-      </div>
+      {(query?.integration === 'false' && tokenSeller.getToken) && (
+        <TokenAuth activateToogle={false} editToken={editToken} createTokenMutation={createTokenMutation} sellerId={route.params.sellerId} tokenSeller={tokenSeller} />
+      )}
       {query?.integration === 'true' && (
         <div className="mt4">
           <Box>
@@ -304,7 +208,6 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
               <div className="w-10 pl2">
                 <Button
                   variation="primary"
-                  loading={loadingCreateToken}
                   onClick={handleSaveBilling}
                 >
                   SAVE

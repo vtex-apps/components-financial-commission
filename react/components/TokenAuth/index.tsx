@@ -10,11 +10,19 @@ import { useMutation } from 'react-apollo'
 import { DocumentNode } from 'graphql'
 import { FormattedMessage } from 'react-intl'
 
+interface responseToken {
+  getToken: {
+    autheticationToken: string,
+    enabled: boolean
+    name: string
+  }
+}
 interface TokenAuthProps {
   activateToogle: Boolean
   sellerId: string
   editToken: DocumentNode
   createTokenMutation: DocumentNode
+  tokenSeller: responseToken
 }
 
 const TokenAuth: FC<TokenAuthProps> = (props) => {
@@ -23,7 +31,6 @@ const TokenAuth: FC<TokenAuthProps> = (props) => {
     setSellerSettingsToken,
   ] = useState<SellerSettingsToken>({})
 
-  console.info('props ', props)
   const {
     editToken,
     createTokenMutation,
@@ -57,9 +64,9 @@ const TokenAuth: FC<TokenAuthProps> = (props) => {
   }
 
   useEffect(() => {
-    console.info('createToken ', createToken, ' sellerSettingsToken ', !sellerSettingsToken.authenticationToken)
     // eslint-disable-next-line vtex/prefer-early-return
     if (createToken) {
+      console.info('create token ', createToken)
       const newToken = createToken.createToken.autheticationToken
 
       setSellerSettingsToken({
@@ -86,7 +93,7 @@ const TokenAuth: FC<TokenAuthProps> = (props) => {
             placeholder="Token"
             readOnly
             label="Seller Token"
-            value={sellerSettingsToken.authenticationToken}
+            value={sellerSettingsToken.authenticationToken ? sellerSettingsToken.authenticationToken : props.tokenSeller.getToken?.autheticationToken}
           />
         </div>
         <div className="mb4 flex justify-end ">
