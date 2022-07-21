@@ -22,18 +22,21 @@ import { DocumentNode } from 'graphql'
 
 import TableComponent from './components/Table'
 import PaginationComponent from './components/Table/pagination'
-import { Filter } from './components'
+import { Filter, TokenAuth } from './components'
 
 interface SettingsProps {
   getSellersQuery: DocumentNode
   createSettingsMutation: DocumentNode
   getSettingsQuery: DocumentNode
+  createTokenMutation: DocumentNode
+  editToken: DocumentNode
+  getTokenQuery: DocumentNode
 }
 
 const Settings: FC<SettingsProps> = (props) => {
-  const { getSellersQuery, createSettingsMutation, getSettingsQuery } = props
+  const { getSellersQuery, createSettingsMutation, getSettingsQuery, createTokenMutation, editToken, getTokenQuery, } = props
 
-  const { navigate } = useRuntime()
+  const { navigate, account } = useRuntime()
   const [sellersId, setSellersId] = useState('')
   const [optionsSelect, setOptionsSelect] = useState<any>([])
   const [sellersResult, setSellersResult] = useState<SettingsSellers[] | []>([])
@@ -68,6 +71,14 @@ const Settings: FC<SettingsProps> = (props) => {
     },
   })
 
+  const { data: getToken } = useQuery(getTokenQuery, {
+    ssr: false,
+    pollInterval: 0,
+    variables: {
+      accountId: account,
+    },
+  })
+
   const { data: settings } = useQuery(getSettingsQuery, {
     ssr: false,
     pollInterval: 0,
@@ -93,6 +104,11 @@ const Settings: FC<SettingsProps> = (props) => {
       label: 'Monthly',
     },
   ]
+
+  useEffect(() => {
+    console.info('getToken ', getToken, ' --- ', account)
+
+  }, [getToken])
 
   useEffect(() => {
     if (settings) {
@@ -158,7 +174,6 @@ const Settings: FC<SettingsProps> = (props) => {
                 to: `/admin/app/commission-report/settings/detail/${data.id}`,
                 replace: true,
                 query: `name=${data.name}&integration=${integration}`,
-                params: { __integration: integration },
               })
             },
           },
@@ -395,6 +410,7 @@ const Settings: FC<SettingsProps> = (props) => {
           </div>
         </Box>
       </div>
+      {!integration && (<TokenAuth activateToogle={false} editToken={editToken} createTokenMutation={createTokenMutation} sellerId={account} />)}
       <p className="c-action-primary hover-c-action-primary fw5 ml2 mt6">
         <FormattedMessage id="admin/billing-cycle" />
       </p>

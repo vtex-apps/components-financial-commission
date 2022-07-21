@@ -54,9 +54,7 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
     getSettingsQuery,
   } = props
 
-  const { navigate, route, query, params } = useRuntime()
-
-  console.info('params ', params)
+  const { navigate, route, query } = useRuntime()
 
   const [
     sellerSettingsToken,
@@ -95,7 +93,8 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
   const [editTokenMutation] = useMutation(editToken)
 
   const handleCreateToken = () => {
-    authenticationToken({ variables: { sellerId: route.params.sellerId } })
+    console.info('create token ', { variables: { accountId: route.params.sellerId } })
+    authenticationToken({ variables: { accountId: route.params.sellerId } })
   }
 
   const handleSaveBilling = () => {
@@ -221,8 +220,9 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
   }, [getToken])
 
   useEffect(() => {
+    console.info('createToken ', createToken, ' sellerSettingsToken ', !sellerSettingsToken.authenticationToken)
     // eslint-disable-next-line vtex/prefer-early-return
-    if (createToken) {
+    if (createToken && !sellerSettingsToken.authenticationToke) {
       const newToken = createToken.createToken.autheticationToken
 
       setSellerSettingsToken({
@@ -231,7 +231,7 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createToken, sellerSettingsToken])
+  }, [createToken])
 
   return (
     <Layout
@@ -276,7 +276,7 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
               <Button
                 variation="primary"
                 loading={loadingCreateToken}
-                onClick={handleCreateToken}
+                onClick={() => handleCreateToken()}
                 disabled={!sellerSettingsToken.enabled}
               >
                 {<FormattedMessage id="admin/form-settings.button-new" />}
