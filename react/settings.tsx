@@ -45,6 +45,7 @@ const Settings: FC<SettingsProps> = (props) => {
   const [createSettings, { data: dataSettings }] = useMutation(
     createSettingsMutation
   )
+  const [tokenSeller, setTokenSeller] = useState<any>({})
 
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
@@ -70,6 +71,8 @@ const Settings: FC<SettingsProps> = (props) => {
       },
     },
   })
+
+  const [editTokenMutation] = useMutation(editToken)
 
   const { data: getToken } = useQuery(getTokenQuery, {
     ssr: false,
@@ -106,8 +109,7 @@ const Settings: FC<SettingsProps> = (props) => {
   ]
 
   useEffect(() => {
-    console.info('getToken ', getToken, ' --- ', account)
-
+    if (getToken) setTokenSeller(getToken)
   }, [getToken])
 
   useEffect(() => {
@@ -257,6 +259,13 @@ const Settings: FC<SettingsProps> = (props) => {
             billingCycle: selectedValue.label,
             integration: integrationType ? 1 : 0,
           },
+        },
+      })
+
+      editTokenMutation({
+        variables: {
+          accountId: account,
+          isEnable: !integrationType,
         },
       })
     }
@@ -410,7 +419,7 @@ const Settings: FC<SettingsProps> = (props) => {
           </div>
         </Box>
       </div>
-      {!integration && (<TokenAuth activateToogle={false} editToken={editToken} createTokenMutation={createTokenMutation} sellerId={account} />)}
+      {!integration && (<TokenAuth activateToogle={false} editToken={editToken} createTokenMutation={createTokenMutation} sellerId={account} tokenSeller={tokenSeller} />)}
       <p className="c-action-primary hover-c-action-primary fw5 ml2 mt6">
         <FormattedMessage id="admin/billing-cycle" />
       </p>
