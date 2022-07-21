@@ -7,12 +7,16 @@ import {
   Divider,
   Toggle,
 } from 'vtex.styleguide'
-import { FormattedMessage } from 'react-intl'
+import { defineMessages } from 'react-intl'
+// import { FormattedMessage } from 'react-intl'
 
 interface SettingsTableData {
   schemaTable: any
 }
 
+const idMessage = defineMessages({
+  idLabel: { id: 'itemColum.title.props.id' },
+})
 
 const SettingsTable: FC<SettingsTableData> = (props) => {
   const [hideColumns, setHideColumn] = useState<string[]>([])
@@ -40,9 +44,8 @@ const SettingsTable: FC<SettingsTableData> = (props) => {
         {
           props.schemaTable.forEach((itemColum: any) => {
             const validateCheck = hideColumns.find(item => item === itemColum.id)
-            const idLabel = <FormattedMessage id={itemColum.title.props.id} />
             columnModal.push(<div className='mt3'>
-              <Toggle id={itemColum.id} label={idLabel} onChange={(e: any) => hideShowColumns(e.target.id)} checked={validateCheck ? true : false} />
+              <Toggle id={itemColum.id} label={idMessage.idLabel} onChange={(e: any) => hideShowColumns(e.target.id)} checked={validateCheck ? true : false} />
               <div className='mt3'><Divider orientation="horizontal" /></div>
             </div>)
 

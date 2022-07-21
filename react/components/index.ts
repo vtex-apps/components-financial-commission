@@ -1,3 +1,5 @@
 import Filter from './Filter'
+import Totalizer from './Dashboard/Totalizer'
+import TokenAuth from './TokenAuth'
 
-export { Filter }
+export { Filter, Totalizer, TokenAuth }

@@ -21,17 +21,21 @@ import {
 } from 'vtex.styleguide'
 import { useQuery, useLazyQuery } from 'react-apollo'
 import { useRuntime } from 'vtex.render-runtime'
-import { FormattedMessage } from 'react-intl'
-
+import { FormattedMessage, defineMessages } from 'react-intl'
 import { Filter, Totalizer } from './components'
 import TableComponent from './components/Table'
 import PaginationComponent from './components/Table/pagination'
+import { dateDefaultPicker } from './constants'
 
 interface ReportProps {
   getSellersQuery: DocumentNode
   searchStatsQuery: DocumentNode
   searchSellersQuery: DocumentNode
 }
+
+const idMessage = defineMessages({
+  idLabel: { id: 'itemColum.title.props.id' },
+})
 
 const CommissionReport: FC<ReportProps> = (props) => {
   const { getSellersQuery, searchStatsQuery, searchSellersQuery } = props
@@ -60,6 +64,8 @@ const CommissionReport: FC<ReportProps> = (props) => {
       iconBackgroundColor: '',
     },
   ])
+
+  console.info(defaultStartDate, defaultFinalDate, setTotalItemsFilter)
 
   const columnModal: JSX.Element[] = []
   const [hideColumns, setHideColumn] = useState<string[]>([])
@@ -230,8 +236,8 @@ const CommissionReport: FC<ReportProps> = (props) => {
           valueSellersStats <= 0
             ? 0
             : totalItemsFilter > 0
-            ? totalItemsFilter
-            : totalItems
+              ? totalItemsFilter
+              : totalItems
 
         if (
           getStatistics.ordersCount === 0 &&
@@ -265,8 +271,8 @@ const CommissionReport: FC<ReportProps> = (props) => {
           value: sellersId
             ? `$${totalAmount}`
             : `$${dataStats.searchStatisticsDashboard.statistics.totalOrderValue
-                .toFixed(2)
-                .toString()}`,
+              .toFixed(2)
+              .toString()}`,
           iconBackgroundColor: '#FFDCF8',
           icon: <IconArrowUp color="#F67CC7" size={14} />,
         },
@@ -275,8 +281,8 @@ const CommissionReport: FC<ReportProps> = (props) => {
           value: sellersId
             ? `$${totalCommission}`
             : `$${dataStats.searchStatisticsDashboard.statistics.totalComission
-                .toFixed(2)
-                .toString()}`,
+              .toFixed(2)
+              .toString()}`,
           iconBackgroundColor: '#FFF0EC',
           icon: <IconInfo color="#F7634A" size={14} />,
         },
@@ -410,13 +416,13 @@ const CommissionReport: FC<ReportProps> = (props) => {
             (item) => item === itemColum.id
           )
 
-          const idLabel = <FormattedMessage id={itemColum.title.props.id} />
+          console.info('idLabel ', itemColum.title.props.id)
 
           columnModal.push(
             <div className="mt3">
               <Toggle
                 id={itemColum.id}
-                label={idLabel}
+                label={idMessage.idLabel}
                 onChange={(e: any) => hideShowColumns(e.target.id)}
                 checked={!!validateCheck}
               />
@@ -433,16 +439,10 @@ const CommissionReport: FC<ReportProps> = (props) => {
           <PageBlock>
             <div className="mt4">
               <Filter
-                startDatePicker={new Date(`${startDate}T00:00:00`)}
-                finalDatePicker={new Date(`${finalDate}T00:00:00`)}
+                defaultDate={dateDefaultPicker}
                 optionsSelect={optionsSelect}
-                setStartDate={setStartDate}
-                setFinalDate={setFinalDate}
-                defaultStartDate={defaultStartDate}
-                defaultFinalDate={defaultFinalDate}
                 setSellerId={setSellersId}
-                setTotalItems={setTotalItemsFilter}
-                multiValue
+                multiValue={false}
               />
             </div>
           </PageBlock>
