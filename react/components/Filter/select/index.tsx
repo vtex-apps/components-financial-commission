@@ -9,8 +9,7 @@ const SelectComponent: FC<SelectProps> = (props) => {
         value={props.dataFilter}
         label={props.customLabel}
         options={props.options}
-        onChange={(values: DataFilter[] | DataFilter) => {
-          console.info('Array.isArray(values) ', Array.isArray(values))
+        onChange={(values: SellerSelect[] | SellerSelect) => {
           if (Array.isArray(values)) props.setDataFilter(values)
           else props.setDataFilter([values])
         }}

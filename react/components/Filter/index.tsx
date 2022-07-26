@@ -9,19 +9,19 @@ import {
 } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import { SelectComponent, DatePickerComponent } from './itemsFilter'
-import { getDateString, firstDay, yesterday } from '../../utils/calculateDate'
+import { getDateString, firstDay, yesterday, today } from '../../utils/calculateDate'
 
 const Filter: FC<FilterProps> = (props) => {
   const [dataFilter, setDataFilter] = useState<DateFilter>({
     startDateFilter: firstDay,
-    finalDateFilter: yesterday,
+    finalDateFilter: props.defaultDate?.today ? today : yesterday,
     dataFilter: [],
     statusFilter: []
   })
 
   const changesValuesTable = () => {
     let stringId = '', stringStatus = '', countTotalItems = 0
-    dataFilter.dataFilter.forEach((item: DataFilter) => {
+    dataFilter.dataFilter.forEach((item: SellerSelect) => {
       stringId += props.setStatusOrders ? `${item.label},` : `${item.value.id},`
       countTotalItems += 1
     })
@@ -31,7 +31,7 @@ const Filter: FC<FilterProps> = (props) => {
     props.filterDates && props.filterDates(getDateString(dataFilter.startDateFilter), getDateString(dataFilter.finalDateFilter))
     props.setTotalItems && props.setTotalItems(countTotalItems)
     props.setSellerId(stringId.slice(0, -1))
-    props.setStatusOrders(stringStatus.slice(0, -1))
+    props.setStatusOrders && props.setStatusOrders(stringStatus.slice(0, -1))
   }
 
   const modifyDataFilterSeller = (values: any) => {
@@ -48,8 +48,9 @@ const Filter: FC<FilterProps> = (props) => {
   }
 
   const cleanFilter = () => {
-    setDataFilter({ ...dataFilter, dataFilter: [], startDateFilter: firstDay, finalDateFilter: yesterday, statusFilter: [] })
-    props.filterDates && props.filterDates(getDateString(firstDay), getDateString(yesterday))
+    const lastDate = props.defaultDate?.today ? today : yesterday
+    setDataFilter({ ...dataFilter, dataFilter: [], startDateFilter: firstDay, finalDateFilter: lastDate, statusFilter: [] })
+    props.filterDates && props.filterDates(getDateString(firstDay), getDateString(lastDate))
     props.setSellerId('')
     props.setTotalItems && props.setTotalItems(0)
   }
@@ -88,6 +89,7 @@ const Filter: FC<FilterProps> = (props) => {
             startDatePicker={dataFilter.startDateFilter}
             changeDate={changeDate}
             finalDatePicker={dataFilter.finalDateFilter}
+            today={props.defaultDate ? props.defaultDate.today : false}
           />
         </div>
         <div className="pt7 fr z-0">

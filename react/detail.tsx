@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/display-name */
-import type { DocumentNode } from 'graphql'
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
@@ -19,15 +18,14 @@ import SellerInvoices from './components/SellerInvoices'
 import SellerOrders from './components/SellerOrders'
 // import SettingsTable from './components/SettingsTable'
 import { Filter } from './components'
-import { status, dateDefaultPicker } from './constants'
+import { status, defaultStartString, defaultFinalString } from './constants'
 
-interface DetailProps {
-  account?: string
-  dataSellers?: any
-  ordersQuery: DocumentNode
-  invoiceMutation: DocumentNode
-  invoicesQuery: DocumentNode
-  settingsQuery?: DocumentNode
+const dateDefaultPicker = {
+  startDatePicker: new Date(`${defaultStartString}T00:00:00`),
+  finalDatePicker: new Date(`${defaultFinalString}T00:00:00`),
+  defaultStartDate: defaultStartString,
+  defaultFinalDate: defaultFinalString,
+  today: true
 }
 
 const CommissionReportDetail: FC<DetailProps> = (props) => {
@@ -42,13 +40,13 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
 
   const [startDate, setStartDate] = useState('')
   const [finalDate, setFinalDate] = useState('')
-  const [optionsSelect, setOptionsSelect] = useState<DataFilter[]>([])
+  const [optionsSelect, setOptionsSelect] = useState<SellerSelect[]>([])
   const [sellerName, setSellerName] = useState(account ?? '')
   const [sellerId, setSellerId] = useState('')
   const [tabs, setTabs] = useState(1)
   const [openModal, setOpenModal] = useState(false)
   const [dateRate, setDataRate] = useState<any>([])
-  const [optionsStatus, setOptionsStatus] = useState<any>([])
+  const [optionsStatus, setOptionsStatus] = useState<SellerSelect[]>([])
   const [statusOrders, setStatusOrders] = useState('')
   const [tableOrders, setTableOrders] = useState<any>([])
   const [tableInvoices, setTableInvoices] = useState<any>([])
@@ -62,7 +60,7 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
   useEffect(() => {
     // eslint-disable-next-line vtex/prefer-early-return
     if (dataSellers) {
-      const builtSelectSeller: DataFilter[] = []
+      const builtSelectSeller: SellerSelect[] = []
 
       dataSellers.getSellers.sellers.forEach((seller: DataSellerSelect) => {
         builtSelectSeller.push({
@@ -76,7 +74,6 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
   }, [dataSellers])
 
   useEffect(() => {
-    // eslint-disable-next-line vtex/prefer-early-return
     if (!optionsStatus.length) {
       const buildSelectStatus: any[] = []
 

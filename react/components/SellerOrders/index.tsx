@@ -68,24 +68,6 @@ const SellerOrders: FC<DetailProps> = ({
     }
   }, [settings])
 
-  console.info('datos de consulta getOrders ', {
-    dateStart: startDate,
-    dateEnd: finalDate,
-    sellerName,
-    page,
-    perpage: pageSize,
-    status: statusOrders,
-  })
-
-  console.info('************************************ ', {
-    dateStart: startDate,
-    dateEnd: finalDate,
-    sellerName,
-    page,
-    perpage: pageSize,
-    status: statusOrders,
-  })
-
   const { data: dataOrders, loading: loadingDataOrders } = useQuery(ordersQuery, {
     ssr: false,
     pollInterval: 0,
@@ -216,7 +198,6 @@ const SellerOrders: FC<DetailProps> = ({
 
   useEffect(() => {
     // eslint-disable-next-line vtex/prefer-early-return
-    console.info('dataOrders aunque estan siendo borrados ', dataOrders)
     if (dataOrders) {
       const dataTable: any = []
 
@@ -242,7 +223,6 @@ const SellerOrders: FC<DetailProps> = ({
           },
         })
       })
-      console.info('ajuste tabla orderssssss ', dataTable)
       if (sellerName === "")
         setDataTableOrders([])
       else

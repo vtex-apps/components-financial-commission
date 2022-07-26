@@ -148,7 +148,6 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
 
   useEffect(() => {
     if (settings) {
-      console.info('settings ', settings)
       setInfoSettings([
         {
           idbilling: settings.getSettings.billingCycle,
