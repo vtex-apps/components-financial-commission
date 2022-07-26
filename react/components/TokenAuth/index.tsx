@@ -47,10 +47,10 @@ const TokenAuth: FC<TokenAuthProps> = (props) => {
     setSellerSettingsToken({
       ...sellerSettingsToken,
       enabled: !sellerSettingsToken.enabled,
-      authenticationToken: !sellerSettingsToken.enabled
-        ? sellerSettingsToken.authenticationToken
-        : '',
     })
+    /*authenticationToken: !sellerSettingsToken.enabled
+    ? sellerSettingsToken.authenticationToken
+    : '',*/
     editTokenMutation({
       variables: {
         sellerId: props.sellerId,
@@ -66,7 +66,6 @@ const TokenAuth: FC<TokenAuthProps> = (props) => {
   useEffect(() => {
     // eslint-disable-next-line vtex/prefer-early-return
     if (createToken) {
-      console.info('create token ', createToken)
       const newToken = createToken.createToken.autheticationToken
 
       setSellerSettingsToken({

@@ -28,6 +28,7 @@
   "admin/table-settings-detail": "Detail",
   "admin/table-seller-name": "Seller name",
   "admin/table-total-orders": "Total Orders",
+  "admin/table-total-order": "Total Order",
   "admin/table-total-amount": "Total Amount Orders",
   "admin/table-total-commission": "Total commission",
   "admin/table-actions": "Actions",
@@ -47,5 +48,6 @@
   "admin/modal-settings.billingCycle": "Global Billing cycle",
   "admin/modal-settings.billingCycle-helpText": "Each cycle will trigger the creation of an Invoice; keep in mind that if this is changed, all sellers that follow the default settings will automatically generate an Invoice and start a new cycle following the new rule.",
   "admin/modal-settings.alert-warning": "Proceed with caution. All sellers that currently don't have individual settings will be affected",
-  "admin/form-settings.button-new": "Generate a new one"
+  "admin/form-settings.button-new": "Generate a new one",
+  "admin/navigation.detail-title": "Seller Invoice Detail"
 }

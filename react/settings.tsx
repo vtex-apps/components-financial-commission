@@ -14,6 +14,7 @@ import {
   Button,
   Toggle,
   EXPERIMENTAL_Table as Table,
+  Spinner,
 } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import { useQuery, useMutation } from 'react-apollo'
@@ -82,7 +83,7 @@ const Settings: FC<SettingsProps> = (props) => {
     },
   })
 
-  const { data: settings } = useQuery(getSettingsQuery, {
+  const { data: settings, loading } = useQuery(getSettingsQuery, {
     ssr: false,
     pollInterval: 0,
     fetchPolicy: 'no-cache',
@@ -148,7 +149,7 @@ const Settings: FC<SettingsProps> = (props) => {
 
   useEffect(() => {
     if (dataSellers) {
-      const builtSelectSeller: DataFilter[] = []
+      const builtSelectSeller: SellerSelect[] = []
 
       dataSellers.getSellers.sellers.forEach((seller: DataSeller) => {
         builtSelectSeller.push({
@@ -323,7 +324,7 @@ const Settings: FC<SettingsProps> = (props) => {
         />
       }
     >
-      <div className="mb2">
+      {loading ? <div className='flex justify-center'> <Spinner /> </div> : (<div className="mb2">
         <Box>
           {integration && (
             <div className="mb7">
@@ -418,7 +419,7 @@ const Settings: FC<SettingsProps> = (props) => {
             </div>
           </div>
         </Box>
-      </div>
+      </div>)}
       {!integration && (<TokenAuth activateToogle={false} editToken={editToken} createTokenMutation={createTokenMutation} sellerId={account} tokenSeller={tokenSeller} />)}
       <p className="c-action-primary hover-c-action-primary fw5 ml2 mt6">
         <FormattedMessage id="admin/billing-cycle" />

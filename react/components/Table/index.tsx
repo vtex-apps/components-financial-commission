@@ -16,13 +16,12 @@ const TableV2: FC<TableData> = (props) => {
 
   if (props.hiddenColumn?.length) {
     hiddenColumns = hiddenColumns.filter(
-      (val: any) => !props.hiddenColumn?.includes(val.id)
+      (val: SchemaTable) => !props.hiddenColumn?.includes(val.id)
     )
   }
 
-  if (sorting.sorted.by && sorting.sorted.order) {
-    props.sorting(sorting.sorted)
-  }
+  if (sorting.sorted.by && sorting.sorted.order) props.sorting(sorting.sorted)
+
 
   const ColumnsExample = () => {
     return (
