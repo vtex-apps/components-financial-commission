@@ -25,7 +25,15 @@ import { FormattedMessage, defineMessages } from 'react-intl'
 import { Filter, Totalizer } from './components'
 import TableComponent from './components/Table'
 import PaginationComponent from './components/Table/pagination'
-import { dateDefaultPicker } from './constants'
+import { defaultStartString, defaultFinalString } from './constants'
+
+const dateDefaultPicker = {
+  startDatePicker: new Date(`${defaultStartString}T00:00:00`),
+  finalDatePicker: new Date(`${defaultFinalString}T00:00:00`),
+  defaultStartDate: defaultStartString,
+  defaultFinalDate: defaultFinalString,
+  today: false
+}
 
 interface ReportProps {
   getSellersQuery: DocumentNode
@@ -41,11 +49,9 @@ const CommissionReport: FC<ReportProps> = (props) => {
   const { getSellersQuery, searchStatsQuery, searchSellersQuery } = props
 
   const { navigate } = useRuntime()
-  const [optionsSelect, setOptionsSelect] = useState<DataFilter[]>([])
+  const [optionsSelect, setOptionsSelect] = useState<SellerSelect[]>([])
   const [startDate, setStartDate] = useState('')
   const [finalDate, setFinalDate] = useState('')
-  const [defaultStartDate, setDefaultStartDate] = useState('')
-  const [defaultFinalDate, setDefaultFinalDate] = useState('')
   const [sellersId, setSellersId] = useState('')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
@@ -55,7 +61,7 @@ const CommissionReport: FC<ReportProps> = (props) => {
   const [totalAmount, setTotalAmout] = useState(0)
   const [totalCommission, setTotalCommission] = useState(0)
   const [totalOrder, setTotalOrder] = useState(0)
-  const [orderSort, setOrderSort] = useState('')
+  const [orderSort, setOrderSort] = useState('totalComission DSC')
   const [totalItemsFilter, setTotalItemsFilter] = useState(0)
   const [statsTotalizer, setStatsTotalizer] = useState<StatsTotalizer[]>([
     {
@@ -64,8 +70,6 @@ const CommissionReport: FC<ReportProps> = (props) => {
       iconBackgroundColor: '',
     },
   ])
-
-  console.info(defaultStartDate, defaultFinalDate, setTotalItemsFilter)
 
   const columnModal: JSX.Element[] = []
   const [hideColumns, setHideColumn] = useState<string[]>([])
@@ -136,7 +140,7 @@ const CommissionReport: FC<ReportProps> = (props) => {
     },
     {
       id: 'ordersCount',
-      title: <FormattedMessage id="admin/table-total-orders" />,
+      title: <FormattedMessage id="admin/table-total-order" />,
       sortable: true,
     },
     {
@@ -339,12 +343,10 @@ const CommissionReport: FC<ReportProps> = (props) => {
 
     setStartDate(defaultStartString)
     setFinalDate(defaultFinalString)
-    setDefaultStartDate(defaultStartString)
-    setDefaultFinalDate(defaultFinalString)
 
     // eslint-disable-next-line vtex/prefer-early-return
     if (dataSellers) {
-      const builtSelectSeller: DataFilter[] = []
+      const builtSelectSeller: SellerSelect[] = []
 
       dataSellers.getSellers?.sellers.forEach((seller: DataSellerSelect) => {
         builtSelectSeller.push({
@@ -391,6 +393,11 @@ const CommissionReport: FC<ReportProps> = (props) => {
     setOrderSort(`${dataSorting.by} ${dataSorting.order}`)
   }
 
+  const filterDates = (start: string, final: string) => {
+    setStartDate(start)
+    setFinalDate(final)
+  }
+
   return (
     <Layout
       pageHeader={
@@ -416,8 +423,6 @@ const CommissionReport: FC<ReportProps> = (props) => {
             (item) => item === itemColum.id
           )
 
-          console.info('idLabel ', itemColum.title.props.id)
-
           columnModal.push(
             <div className="mt3">
               <Toggle
@@ -442,7 +447,9 @@ const CommissionReport: FC<ReportProps> = (props) => {
                 defaultDate={dateDefaultPicker}
                 optionsSelect={optionsSelect}
                 setSellerId={setSellersId}
-                multiValue={false}
+                multiValue={true}
+                filterDates={filterDates}
+                setTotalItems={setTotalItemsFilter}
               />
             </div>
           </PageBlock>

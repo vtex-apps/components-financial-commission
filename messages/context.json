@@ -48,6 +48,7 @@
   "admin/modal-settings.billingCycle": "Section title for billing cycle",
   "admin/modal-settings.billingCycle-helpText": "Repercution explanation about modifying billing cycle",
   "admin/modal-settings.alert-warning": "Warning about modifying settings",
-  "admin/form-settings.button-new": "Generate a new one"
+  "admin/form-settings.button-new": "Generate a new one",
+  "admin/navigation.detail-title": "Seller Invoice Detail"
 }
 
