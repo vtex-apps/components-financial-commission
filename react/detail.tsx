@@ -16,7 +16,6 @@ import {
 import Orders from './components/Orders'
 import SellerInvoices from './components/SellerInvoices'
 import SellerOrders from './components/SellerOrders'
-// import SettingsTable from './components/SettingsTable'
 import { Filter } from './components'
 import { status, defaultStartString, defaultFinalString } from './constants'
 
@@ -131,7 +130,6 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
         />
       }
     >
-      {/* <SettingsTable schemaTable={[]} /> */}
       <Modal
         centered
         isOpen={openModal}
