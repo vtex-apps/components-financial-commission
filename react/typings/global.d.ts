@@ -182,3 +182,7 @@ interface DetailProps {
 }
 
 type SellerSettingsToken = Partial<TokenConfiguration>
+
+interface MessageType {
+  [key: string]: { id: string }
+}

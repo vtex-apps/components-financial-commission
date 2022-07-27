@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import type { FC } from 'react'
 import type { DocumentNode } from 'graphql'
 import React, { useEffect, useState } from 'react'
@@ -21,7 +19,7 @@ import {
 } from 'vtex.styleguide'
 import { useQuery, useLazyQuery } from 'react-apollo'
 import { useRuntime } from 'vtex.render-runtime'
-import { FormattedMessage, defineMessages } from 'react-intl'
+import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import { Filter, Totalizer } from './components'
 import TableComponent from './components/Table'
 import PaginationComponent from './components/Table/pagination'
@@ -41,12 +39,17 @@ interface ReportProps {
   searchSellersQuery: DocumentNode
 }
 
-const idMessage = defineMessages({
-  idLabel: { id: 'itemColum.title.props.id' },
+const idMessage: MessageType = defineMessages({
+  actions: { id: "admin/table-actions" },
+  totalComission: { id: "admin/table-total-commission" },
+  totalOrderValue: { id: "admin/table-total-amount" },
+  ordersCount: { id: "admin/table-total-order" },
+  name: { id: "admin/table-seller-name" }
 })
 
 const CommissionReport: FC<ReportProps> = (props) => {
   const { getSellersQuery, searchStatsQuery, searchSellersQuery } = props
+  const intl = useIntl()
 
   const { navigate } = useRuntime()
   const [optionsSelect, setOptionsSelect] = useState<SellerSelect[]>([])
@@ -411,7 +414,7 @@ const CommissionReport: FC<ReportProps> = (props) => {
           onClick={() => setModalColumns(true)}
         />
       </div>
-      <Modal
+      {modalColumns && <Modal
         centered
         isOpen={modalColumns}
         onClose={() => setModalColumns(false)}
@@ -421,15 +424,17 @@ const CommissionReport: FC<ReportProps> = (props) => {
         {schemaTable.forEach((itemColum) => {
           const validateCheck = hideColumns.find(
             (item) => item === itemColum.id
-          )
-
+          ) || false
+          const key = itemColum.id
           columnModal.push(
             <div className="mt3">
               <Toggle
                 id={itemColum.id}
-                label={idMessage.idLabel}
-                onChange={(e: any) => hideShowColumns(e.target.id)}
-                checked={!!validateCheck}
+                label={intl.formatMessage(idMessage[key])}
+                checked={validateCheck}
+                onChange={(e: any) => {
+                  hideShowColumns(e.target.id)
+                }}
               />
               <div className="mt3">
                 <Divider orientation="horizontal" />
@@ -438,7 +443,7 @@ const CommissionReport: FC<ReportProps> = (props) => {
           )
         })}
         {columnModal}
-      </Modal>
+      </Modal>}
       {startDate && finalDate && (
         <div className="mt2">
           <PageBlock>

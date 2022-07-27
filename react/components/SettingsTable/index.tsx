@@ -7,18 +7,23 @@ import {
   Divider,
   Toggle,
 } from 'vtex.styleguide'
-import { defineMessages } from 'react-intl'
+import { defineMessages, useIntl } from 'react-intl'
 // import { FormattedMessage } from 'react-intl'
 
 interface SettingsTableData {
   schemaTable: any
 }
 
-const idMessage = defineMessages({
-  idLabel: { id: 'itemColum.title.props.id' },
+const idMessage: MessageType = defineMessages({
+  actions: { id: "admin/table-actions" },
+  totalComission: { id: "admin/table-total-commission" },
+  totalOrderValue: { id: "admin/table-total-amount" },
+  ordersCount: { id: "admin/table-total-order" },
+  name: { id: "admin/table-seller-name" }
 })
 
 const SettingsTable: FC<SettingsTableData> = (props) => {
+  const intl = useIntl()
   const [hideColumns, setHideColumn] = useState<string[]>([])
   const [modalColumns, setModalColumns] = useState(false)
   let columnModal: JSX.Element[] = []
@@ -44,8 +49,9 @@ const SettingsTable: FC<SettingsTableData> = (props) => {
         {
           props.schemaTable.forEach((itemColum: any) => {
             const validateCheck = hideColumns.find(item => item === itemColum.id)
+            const key = itemColum.id
             columnModal.push(<div className='mt3'>
-              <Toggle id={itemColum.id} label={idMessage.idLabel} onChange={(e: any) => hideShowColumns(e.target.id)} checked={validateCheck ? true : false} />
+              <Toggle id={itemColum.id} label={intl.formatMessage(idMessage[key])} onChange={(e: any) => hideShowColumns(e.target.id)} checked={validateCheck ? true : false} />
               <div className='mt3'><Divider orientation="horizontal" /></div>
             </div>)
 
