@@ -184,7 +184,7 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
         />
       }
     >
-      {(tokenSeller.getToken) && (
+      {(tokenSeller) && (
         <TokenAuth activateToogle={false} editToken={editToken} createTokenMutation={createTokenMutation} sellerId={route.params.sellerId} tokenSeller={tokenSeller} />
       )}
       {query?.integration === 'true' && (
