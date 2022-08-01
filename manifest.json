@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "components-financial-commission",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "title": "Frontend components for financial commission app",
   "description": "Frontend components for financial commission app",
   "builders": {
