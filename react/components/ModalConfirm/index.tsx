@@ -130,7 +130,7 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
               placeholder="e-mail"
               size="large"
               value={email}
-              onChange={(e: any) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setEmail(e.target.value)
                 checkEmail(e.target.value)
               }}

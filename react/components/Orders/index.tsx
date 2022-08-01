@@ -24,12 +24,12 @@ interface DetailProps {
   startDate?: string
   finalDate?: string
   statusOrders?: string
-  setDataRate: (data: any) => void
+  setDataRate: (data: dateRateType[]) => void
   sellerId?: string
   setOpenModal?: (open: boolean) => void
   openModal?: boolean
-  dataTableOrders: Order[]
-  setDataTableOrders: (data: Order[]) => void
+  dataTableOrders: TableOrdersType[]
+  setDataTableOrders: (data: TableOrdersType[]) => void
 }
 
 const Orders: FC<DetailProps> = ({
@@ -189,12 +189,10 @@ const Orders: FC<DetailProps> = ({
     getDataOrders()
     // eslint-disable-next-line vtex/prefer-early-return
     if (dataOrders) {
-      const dataTable: any = []
-
-      dataOrders.orders.data.forEach((item: any) => {
-        // eslint-disable-next-line array-callback-return
+      const dataTable: TableOrdersType[] = []
+      dataOrders.orders.data.forEach((item: TableDataOrder) => {
         const keyColor = Object.keys(status).find(
-          (itemStatus: any) => itemStatus === item.status
+          (itemStatus: string) => itemStatus === item.status
         )
 
         dataTable.push({

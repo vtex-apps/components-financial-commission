@@ -1,17 +1,18 @@
 import type { FC } from 'react'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   ButtonWithIcon,
   IconFilter,
-
   IconDelete,
   ButtonGroup,
 } from 'vtex.styleguide'
+import { useRuntime } from 'vtex.render-runtime'
 import { FormattedMessage } from 'react-intl'
 import { SelectComponent, DatePickerComponent } from './itemsFilter'
-import { getDateString, firstDay, yesterday, today } from '../../utils/calculateDate'
+import { getDateString, firstDay, yesterday, today, filterEmptyObj, filterSellerValues } from '../../utils/calculateDate'
 
 const Filter: FC<FilterProps> = (props) => {
+  const { query, setQuery } = useRuntime()
   const [dataFilter, setDataFilter] = useState<DateFilter>({
     startDateFilter: firstDay,
     finalDateFilter: props.defaultDate?.today ? today : yesterday,
@@ -19,26 +20,56 @@ const Filter: FC<FilterProps> = (props) => {
     statusFilter: []
   })
 
-  const changesValuesTable = () => {
-    let stringId = '', stringStatus = '', countTotalItems = 0
-    dataFilter.dataFilter.forEach((item: SellerSelect) => {
-      stringId += props.setStatusOrders ? `${item.label},` : `${item.value.id},`
-      countTotalItems += 1
-    })
-    dataFilter.statusFilter.forEach((status) => {
-      stringStatus += `${status.label},`
-    })
+  useEffect(() => {
+    if (props.optionsSelect.length > 0) {
+      let filterQuery = []
+      let filterQueryStatus = []
+      if (query.sellerName) {
+        const separateString = query.sellerName.split(",")
+        filterQuery = separateString.map((seller: any) => props.optionsSelect.find((nameQuery) => nameQuery.label === seller))
+      }
+
+      if (query.status && props.optionsStatus) {
+        const separateString = query.status.split(",")
+        filterQueryStatus = separateString.map((seller: any) => props.optionsStatus?.find((nameQuery) => nameQuery.label === seller))
+      }
+      setDataFilter({ ...dataFilter, statusFilter: filterQueryStatus, dataFilter: filterQuery })
+      changesValuesTable(filterQuery, filterQueryStatus)
+    }
+
+
+  }, [props.optionsSelect])
+
+  const changesValuesTable = (dataFilterValues?: SellerSelect[], dataFilterStatus?: SellerSelect[]) => {
+    let response: ResponseFilter = { stringId: '', sellerFilter: '', countTotalItems: 0 }, stringStatus = ''
+    if (dataFilterValues?.length) response = filterSellerValues(dataFilterValues, props.setStatusOrders ? true : false)
+    else response = filterSellerValues(dataFilter.dataFilter, props.setStatusOrders ? true : false)
+
+    if (dataFilterStatus?.length) {
+      dataFilterStatus.forEach((status) => {
+        stringStatus += `${status.label},`
+      })
+    } else {
+      dataFilter.statusFilter.forEach((status) => {
+        stringStatus += `${status.label},`
+      })
+    }
+
     props.filterDates && props.filterDates(getDateString(dataFilter.startDateFilter), getDateString(dataFilter.finalDateFilter))
-    props.setTotalItems && props.setTotalItems(countTotalItems)
-    props.setSellerId(stringId.slice(0, -1))
+    props.setSellerId(response.stringId.slice(0, -1))
     props.setStatusOrders && props.setStatusOrders(stringStatus.slice(0, -1))
+    props.setTotalItems && props.setTotalItems(response.countTotalItems)
+
+    let queryObj = { sellerName: response.sellerFilter.slice(0, -1), status: stringStatus.slice(0, -1), startDate: props.defaultDate ? getDateString(dataFilter.startDateFilter) : '', finalDate: props.defaultDate ? getDateString(dataFilter.finalDateFilter) : '' }
+    queryObj = filterEmptyObj(queryObj)
+    setQuery(queryObj)
   }
 
-  const modifyDataFilterSeller = (values: any) => {
+  const modifyDataFilterSeller = (values: SellerSelect[]) => {
     setDataFilter({ ...dataFilter, dataFilter: values })
   }
 
-  const modifyDataFilterStatus = (values: any) => {
+  const modifyDataFilterStatus = (values: SellerSelect[]) => {
     setDataFilter({ ...dataFilter, statusFilter: values })
   }
 
@@ -53,6 +84,7 @@ const Filter: FC<FilterProps> = (props) => {
     props.filterDates && props.filterDates(getDateString(firstDay), getDateString(lastDate))
     props.setSellerId('')
     props.setTotalItems && props.setTotalItems(0)
+    setQuery({ sellerName: undefined, status: undefined, startDate: undefined, finalDate: undefined })
   }
 
   return (
@@ -85,12 +117,12 @@ const Filter: FC<FilterProps> = (props) => {
       )}
       <div className="flex-ns w-100 justify-around items-end justify-end">
         <div className="w-100-ns pt2 pr2">
-          <DatePickerComponent
+          {props.defaultDate && <DatePickerComponent
             startDatePicker={dataFilter.startDateFilter}
             changeDate={changeDate}
             finalDatePicker={dataFilter.finalDateFilter}
             today={props.defaultDate ? props.defaultDate.today : false}
-          />
+          />}
         </div>
         <div className="pt7 fr z-0">
           <ButtonGroup

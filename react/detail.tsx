@@ -44,11 +44,11 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
   const [sellerId, setSellerId] = useState('')
   const [tabs, setTabs] = useState(1)
   const [openModal, setOpenModal] = useState(false)
-  const [dateRate, setDataRate] = useState<any>([])
+  const [dateRate, setDataRate] = useState<dateRateType[]>([])
   const [optionsStatus, setOptionsStatus] = useState<SellerSelect[]>([])
   const [statusOrders, setStatusOrders] = useState('')
-  const [tableOrders, setTableOrders] = useState<any>([])
-  const [tableInvoices, setTableInvoices] = useState<any>([])
+  const [tableOrders, setTableOrders] = useState<TableOrdersType[]>([])
+  const [tableInvoices, setTableInvoices] = useState<Invoice[]>([])
 
   const formatDate = (valueDate: number) => {
     const validateDate = valueDate <= 9 ? `0${valueDate}` : valueDate
@@ -74,7 +74,7 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
 
   useEffect(() => {
     if (!optionsStatus.length) {
-      const buildSelectStatus: any[] = []
+      const buildSelectStatus: SellerSelect[] = []
 
       Object.keys(status).forEach((orderStatus) => {
         buildSelectStatus.push({
@@ -136,7 +136,7 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
         onClose={() => setOpenModal(!openModal)}
       >
         <div className="mb3">
-          {dateRate.map((elmRate: any) => (
+          {dateRate.map((elmRate: dateRateType) => (
             <div key="elmRate">
               <h2>Item ID: #{elmRate.itemId}</h2>
               <p>

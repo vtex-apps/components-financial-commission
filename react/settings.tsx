@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable vtex/prefer-early-return */
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
 import {
@@ -36,18 +34,16 @@ interface SettingsProps {
 
 const Settings: FC<SettingsProps> = (props) => {
   const { getSellersQuery, createSettingsMutation, getSettingsQuery, createTokenMutation, editToken, getTokenQuery, } = props
-
   const { navigate, account } = useRuntime()
   const [sellersId, setSellersId] = useState('')
-  const [optionsSelect, setOptionsSelect] = useState<any>([])
+  const [optionsSelect, setOptionsSelect] = useState<SellerSelect[]>([])
   const [sellersResult, setSellersResult] = useState<SettingsSellers[] | []>([])
-  const [selectedValue, setSelectValue] = useState<any | null>()
-  const [infoSettings, setInfoSettings] = useState<any>([])
+  const [selectedValue, setSelectValue] = useState<SelectObj | null>()
+  const [infoSettings, setInfoSettings] = useState<SettingInfoType[]>([])
   const [createSettings, { data: dataSettings }] = useMutation(
     createSettingsMutation
   )
   const [tokenSeller, setTokenSeller] = useState<any>({})
-
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [itemFrom, setItemFrom] = useState(1)
@@ -55,7 +51,6 @@ const Settings: FC<SettingsProps> = (props) => {
   const [totalItems, setTotalItems] = useState(0)
   const [openAlert, setOpenAlert] = useState(false)
   const [integration, setIntegration] = useState(true)
-
   const { data: dataSellers } = useQuery(getSellersQuery, {
     ssr: false,
     pollInterval: 0,
@@ -342,7 +337,7 @@ const Settings: FC<SettingsProps> = (props) => {
                       options={DATE_CUT_OPTIONS}
                       multi={false}
                       value={selectedValue}
-                      onChange={(values: any) => {
+                      onChange={(values: SelectObj) => {
                         setSelectValue(values)
                       }}
                     />

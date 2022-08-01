@@ -18,7 +18,7 @@ interface DateFilter {
   startDateFilter: Date
   finalDateFilter: Date
   dataFilter: SellerSelect[]
-  statusFilter: any[]
+  statusFilter: SellerSelect[]
 }
 interface CellRendererProps {
   data: string
@@ -91,8 +91,8 @@ interface FilterProps {
   setSellerId: (v: string) => void
   setId?: (v: string) => void
   multiValue: boolean
-  optionsStatus?: any
-  setStatusOrders?: any
+  optionsStatus?: SellerSelect[]
+  setStatusOrders?: (v: string) => void
   disableSelect?: boolean
 }
 interface StatsTotalizer {
@@ -134,7 +134,6 @@ interface DatepickerProps {
   changeDate: (date: Date, type: string) => void
   today: boolean
 }
-
 interface PaginationProps {
   setPageSize: (v: number) => void
   currentPage: number
@@ -145,12 +144,10 @@ interface PaginationProps {
   changeRows: (row: number) => void
   onPrevClick: () => void
 }
-
 interface SettingsSellers {
   id: string
   name: string
 }
-
 interface DataSeller {
   id: string
   name: string
@@ -158,15 +155,11 @@ interface DataSeller {
   totalComission: string
   totalOrderValue: string
 }
-
 interface Pagination {
   currentPage: number
   pageSize: number
   totalPage: number
 }
-
-
-
 interface DetailProps {
   account?: string
   dataSellers?: {
@@ -182,7 +175,77 @@ interface DetailProps {
 }
 
 type SellerSettingsToken = Partial<TokenConfiguration>
-
 interface MessageType {
   [key: string]: { id: string }
+}
+interface rateType {
+  freightCommissionPercentage: number
+  productCommissionPercentage: number
+}
+interface dateRateType {
+  itemId: string
+  nameItem: string
+  rate: rateType
+}
+interface StatusType {
+  status: string
+  bgColor: string
+  fontColor: string
+}
+interface TableOrdersType {
+  creationDate: string
+  id: string
+  rate: [rateType]
+  status: StatusType
+  totalCommission: number
+  totalOrder: number
+}
+
+interface TableDataOrder {
+  creationDate: string
+  marketplaceOrderId: string | null
+  orderId: string
+  rate: [rateType]
+  sellerOrderId: string
+  status: string
+  statusDescription: string
+  totalComission: number
+  totalOrderValue: number
+}
+interface SortObj {
+  by: string
+  order: string
+}
+interface SelectObj {
+  value: number
+  label: string
+}
+interface SettingInfoType {
+  idbilling: string
+  start: string
+  end: string
+}
+interface responseToken {
+  getToken: {
+    autheticationToken: string,
+    enabled: boolean
+    name: string
+  }
+}
+interface TokenAuthProps {
+  activateToogle: Boolean
+  sellerId: string
+  editToken: DocumentNode
+  createTokenMutation: DocumentNode
+  tokenSeller: responseToken
+}
+interface DataActions {
+  id: string
+  name: string
+}
+
+interface ResponseFilter {
+  stringId: string
+  sellerFilter: string
+  countTotalItems: number
 }

@@ -157,7 +157,7 @@ const CommissionReport: FC<ReportProps> = (props) => {
       sortable: true,
     },
     {
-      id: 'actions',
+      id: 'name',
       title: <FormattedMessage id="admin/table-actions" />,
       // eslint-disable-next-line react/display-name
       cellRenderer: (cellProps: CellRendererProps) => {
@@ -392,7 +392,7 @@ const CommissionReport: FC<ReportProps> = (props) => {
     setPage(previousPage)
   }
 
-  const sorting = (dataSorting: any) => {
+  const sorting = (dataSorting: SortObj) => {
     setOrderSort(`${dataSorting.by} ${dataSorting.order}`)
   }
 
@@ -432,7 +432,7 @@ const CommissionReport: FC<ReportProps> = (props) => {
                 id={itemColum.id}
                 label={intl.formatMessage(idMessage[key])}
                 checked={validateCheck}
-                onChange={(e: any) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   hideShowColumns(e.target.id)
                 }}
               />

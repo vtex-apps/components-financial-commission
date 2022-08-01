@@ -22,7 +22,6 @@ const TableV2: FC<TableData> = (props) => {
 
   if (sorting.sorted.by && sorting.sorted.order) props.sorting(sorting.sorted)
 
-
   const ColumnsExample = () => {
     return (
       <div>

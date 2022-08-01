@@ -51,7 +51,7 @@ const SettingsTable: FC<SettingsTableData> = (props) => {
             const validateCheck = hideColumns.find(item => item === itemColum.id)
             const key = itemColum.id
             columnModal.push(<div className='mt3'>
-              <Toggle id={itemColum.id} label={intl.formatMessage(idMessage[key])} onChange={(e: any) => hideShowColumns(e.target.id)} checked={validateCheck ? true : false} />
+              <Toggle id={itemColum.id} label={intl.formatMessage(idMessage[key])} onChange={(e: React.ChangeEvent<HTMLInputElement>) => hideShowColumns(e.target.id)} checked={validateCheck ? true : false} />
               <div className='mt3'><Divider orientation="horizontal" /></div>
             </div>)
 

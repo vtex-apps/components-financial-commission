@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { FC } from 'react'
 import React, { useState, useEffect } from 'react'
 import {
@@ -46,9 +45,9 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
 
   const { navigate, route, query } = useRuntime()
 
-  const [selectedValue, setSelectValue] = useState<any | null>()
+  const [selectedValue, setSelectValue] = useState<SelectObj | null>()
   const [openAlert, setOpenAlert] = useState(false)
-  const [infoSettings, setInfoSettings] = useState<any>([])
+  const [infoSettings, setInfoSettings] = useState<SettingInfoType[]>([])
   const [tokenSeller, setTokenSeller] = useState<any>({})
 
   const { data: getToken } = useQuery(getTokenQuery, {
@@ -199,7 +198,7 @@ const SettingsDetail: FC<SettingsDetailProps> = (props) => {
                   options={DATE_CUT_OPTIONS}
                   value={selectedValue}
                   multi={false}
-                  onChange={(values: any) => {
+                  onChange={(values: SelectObj) => {
                     setSelectValue(values)
                   }}
                 />

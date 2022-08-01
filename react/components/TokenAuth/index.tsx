@@ -7,23 +7,7 @@ import {
   Box,
 } from 'vtex.styleguide'
 import { useMutation } from 'react-apollo'
-import { DocumentNode } from 'graphql'
 import { FormattedMessage } from 'react-intl'
-
-interface responseToken {
-  getToken: {
-    autheticationToken: string,
-    enabled: boolean
-    name: string
-  }
-}
-interface TokenAuthProps {
-  activateToogle: Boolean
-  sellerId: string
-  editToken: DocumentNode
-  createTokenMutation: DocumentNode
-  tokenSeller: responseToken
-}
 
 const TokenAuth: FC<TokenAuthProps> = (props) => {
   const [
