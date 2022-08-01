@@ -41,7 +41,7 @@ const Filter: FC<FilterProps> = (props) => {
   }, [props.optionsSelect])
 
   const changesValuesTable = (dataFilterValues?: SellerSelect[], dataFilterStatus?: SellerSelect[]) => {
-    let response: ResponseFilter = { stringId: '', sellerFilter: '', countTotalItems: 0 }, stringStatus = ''
+    let response: ResponseFilter = { stringId: '', sellerFilter: '', countTotalItems: 0, sellerId:''  }, stringStatus = ''
     if (dataFilterValues?.length) response = filterSellerValues(dataFilterValues, props.setStatusOrders ? true : false)
     else response = filterSellerValues(dataFilter.dataFilter, props.setStatusOrders ? true : false)
 
@@ -57,6 +57,7 @@ const Filter: FC<FilterProps> = (props) => {
 
     props.filterDates && props.filterDates(getDateString(dataFilter.startDateFilter), getDateString(dataFilter.finalDateFilter))
     props.setSellerId(response.stringId.slice(0, -1))
+    props.setId && props.setId(response.sellerId.slice(0, -1))
     props.setStatusOrders && props.setStatusOrders(stringStatus.slice(0, -1))
     props.setTotalItems && props.setTotalItems(response.countTotalItems)
 

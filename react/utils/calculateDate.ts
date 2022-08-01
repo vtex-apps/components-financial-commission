@@ -27,12 +27,13 @@ export const filterEmptyObj = (obj: any) => {
 }
 
 export const filterSellerValues = (data: SellerSelect[], status: boolean) => {
-  let stringId = '', countTotalItems = 0, sellerFilter = ''
+  let stringId = '', countTotalItems = 0, sellerFilter = '', sellerId = ''
   data.forEach((item: SellerSelect) => {
     stringId += status ? `${item.label},` : `${item.value.id},`
     sellerFilter += `${item.label},`
     countTotalItems += 1
+    sellerId += `${item.value.id},`
   })
 
-  return { stringId, sellerFilter, countTotalItems }
+  return { stringId, sellerFilter, countTotalItems, sellerId }
 }

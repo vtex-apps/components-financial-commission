@@ -248,4 +248,5 @@ interface ResponseFilter {
   stringId: string
   sellerFilter: string
   countTotalItems: number
+  sellerId: string
 }
