@@ -30,6 +30,7 @@ interface DetailProps {
   openModal?: boolean
   dataTableOrders: TableOrdersType[]
   setDataTableOrders: (data: TableOrdersType[]) => void
+  validRange: boolean
 }
 
 const Orders: FC<DetailProps> = ({
@@ -46,6 +47,7 @@ const Orders: FC<DetailProps> = ({
   openModal,
   dataTableOrders,
   setDataTableOrders,
+  validRange,
 }) => {
   const { query } = useRuntime()
   const [page, setPage] = useState(1)
@@ -183,13 +185,14 @@ const Orders: FC<DetailProps> = ({
       setDataTableOrders([])
       setTotalItems(0)
     }
-  }, [query, sellerName])
+  }, [query, sellerName, setDataTableOrders])
 
   useEffect(() => {
     getDataOrders()
     // eslint-disable-next-line vtex/prefer-early-return
     if (dataOrders) {
       const dataTable: TableOrdersType[] = []
+
       dataOrders.orders.data.forEach((item: TableDataOrder) => {
         const keyColor = Object.keys(status).find(
           (itemStatus: string) => itemStatus === item.status
@@ -223,7 +226,11 @@ const Orders: FC<DetailProps> = ({
         <ModalConfirm
           invoiceMutation={invoiceMutation}
           disabled={
-            !(statusOrders === 'invoiced' && dataOrders?.orders.data.length)
+            !(
+              statusOrders === 'invoiced' &&
+              dataOrders?.orders.data.length &&
+              validRange
+            )
           }
           buttonMessage={
             <FormattedMessage id="admin/form-settings.button-invoice" />

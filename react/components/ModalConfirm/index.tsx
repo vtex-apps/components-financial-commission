@@ -141,13 +141,13 @@ const ModalConfirm: FC<ModalConfirmData> = (props) => {
       </ModalDialog>
 
       {props.integration !== 'internal' ? null : (
-        <div className="mb5 flex justify-between items-center">
+        <div className="mb5 justify-end flex items-end items-center">
           {!props.disabled ? (
             ''
           ) : (
             <div className={`ph5 ${styles.large}`}>
               <Alert type="warning">
-                Filter orders by invoiced status to enable CREATE INVOICE button
+                <FormattedMessage id="admin/form-settings.invalid-invoice" />
               </Alert>
             </div>
           )}

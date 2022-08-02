@@ -24,7 +24,7 @@ const dateDefaultPicker = {
   finalDatePicker: new Date(`${defaultFinalString}T00:00:00`),
   defaultStartDate: defaultStartString,
   defaultFinalDate: defaultFinalString,
-  today: true
+  today: true,
 }
 
 const CommissionReportDetail: FC<DetailProps> = (props) => {
@@ -198,6 +198,7 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
                   settingsQuery={settingsQuery}
                   dataTableOrders={tableOrders}
                   setDataTableOrders={setTableOrders}
+                  validRange={defaultFinalString !== finalDate}
                 />
               ) : (
                 <Orders
@@ -212,6 +213,7 @@ const CommissionReportDetail: FC<DetailProps> = (props) => {
                   invoiceMutation={invoiceMutation}
                   dataTableOrders={tableOrders}
                   setDataTableOrders={setTableOrders}
+                  validRange={defaultFinalString !== finalDate}
                 />
               )}
             </div>
