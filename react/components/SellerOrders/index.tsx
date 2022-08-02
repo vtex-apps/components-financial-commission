@@ -31,6 +31,7 @@ interface DetailProps {
   openModal?: boolean
   dataTableOrders: TableOrdersType[]
   setDataTableOrders: (data: TableOrdersType[]) => void
+  validRange: boolean
 }
 
 const SellerOrders: FC<DetailProps> = ({
@@ -48,6 +49,7 @@ const SellerOrders: FC<DetailProps> = ({
   openModal,
   dataTableOrders,
   setDataTableOrders,
+  validRange,
 }) => {
   const { query } = useRuntime()
   const [page, setPage] = useState(1)
@@ -68,20 +70,23 @@ const SellerOrders: FC<DetailProps> = ({
     }
   }, [settings])
 
-  const { data: dataOrders, loading: loadingDataOrders } = useQuery(ordersQuery, {
-    ssr: false,
-    pollInterval: 0,
-    variables: {
-      searchOrdersParams: {
-        dateStart: startDate,
-        dateEnd: finalDate,
-        sellerName,
-        page,
-        perpage: pageSize,
-        status: statusOrders,
+  const { data: dataOrders, loading: loadingDataOrders } = useQuery(
+    ordersQuery,
+    {
+      ssr: false,
+      pollInterval: 0,
+      variables: {
+        searchOrdersParams: {
+          dateStart: startDate,
+          dateEnd: finalDate,
+          sellerName,
+          page,
+          perpage: pageSize,
+          status: statusOrders,
+        },
       },
-    },
-  })
+    }
+  )
 
   const IDCell = (props: CellRendererProps) => {
     return (
@@ -194,7 +199,7 @@ const SellerOrders: FC<DetailProps> = ({
       setDataTableOrders([])
       setTotalItems(0)
     }
-  }, [query, sellerName])
+  }, [query, sellerName, setDataTableOrders])
 
   useEffect(() => {
     if (dataOrders) {
@@ -221,10 +226,8 @@ const SellerOrders: FC<DetailProps> = ({
           },
         })
       })
-      if (sellerName === "")
-        setDataTableOrders([])
-      else
-        setDataTableOrders(dataTable)
+      if (sellerName === '') setDataTableOrders([])
+      else setDataTableOrders(dataTable)
       setTotalItems(dataOrders.orders.paging.total)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -237,7 +240,11 @@ const SellerOrders: FC<DetailProps> = ({
           integration={integration}
           invoiceMutation={invoiceMutation}
           disabled={
-            !(statusOrders === 'invoiced' && dataOrders?.orders.data.length)
+            !(
+              statusOrders === 'invoiced' &&
+              dataOrders?.orders.data.length &&
+              validRange
+            )
           }
           buttonMessage={
             <FormattedMessage id="admin/form-settings.button-invoice" />
