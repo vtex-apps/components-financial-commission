@@ -3,7 +3,6 @@ import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
 import { useLazyQuery } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
-import { useRuntime } from 'vtex.render-runtime'
 import {
   ButtonWithIcon,
   IconVisibilityOff,
@@ -49,7 +48,6 @@ const Orders: FC<DetailProps> = ({
   setDataTableOrders,
   validRange,
 }) => {
-  const { query } = useRuntime()
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [itemFrom, setItemFrom] = useState(1)
@@ -179,13 +177,6 @@ const Orders: FC<DetailProps> = ({
     setItemFrom(currentFrom)
     setPage(previousPage)
   }
-
-  useEffect(() => {
-    if (sellerName === '' && !query?.sellerName) {
-      setDataTableOrders([])
-      setTotalItems(0)
-    }
-  }, [query, sellerName, setDataTableOrders])
 
   useEffect(() => {
     getDataOrders()
