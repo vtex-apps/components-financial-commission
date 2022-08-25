@@ -21,7 +21,8 @@ Add in the section `dependencies` of the manifest file of the app to use, the ne
 
 Here you find the structure of the project folder. The changes made in this app will be reflected in the apps using the **Components Financial Commission** app in the dependencies
 
-// Image folder
+![image](https://user-images.githubusercontent.com/8409481/186645144-3aeb1c81-245b-4948-b80c-8bf653499b3f.png)
+
 
 **Components folder**
 
