@@ -6,9 +6,13 @@
 
 **Components Financial Commission**  is an app that can be used to create the interfaces in other apps in charge of generating and showing the sales commissions 
 
+</br>
+ </br>
 
  > :warning:
  > **This app was designed to be used in the Financial Commission App**. Please, validate if you want to use this app in another implementation.
+ 
+ </br>
 
 ## How use this app
 
