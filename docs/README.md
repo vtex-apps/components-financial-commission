@@ -1,9 +1,14 @@
 **📢 Don't fork this project. Use, contribute, or open issues through Store Discussion.**
 
-# COMPONENTS FINANCIAL COMMISSION
+
+
+# COMPONENTS FINANCIAL COMMISSION 
 
 **Components Financial Commission**  is an app that can be used to create the interfaces in other apps in charge of generating and showing the sales commissions 
 
+
+ > :warning:
+ > **This app was designed to be used in the Financial Commission App**. Please, validate if you want to use this app in another implementation.
 
 ## How use this app
 
