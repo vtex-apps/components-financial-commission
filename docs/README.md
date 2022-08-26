@@ -14,7 +14,7 @@
  
  </br>
 
-## How import this app
+## How to import this app
 
 Add in the section `dependencies` of the manifest file of the app to use, the next instruction that show you below.
 
@@ -58,7 +58,7 @@ Here you can find the folder `message`. Here add the files `en.json` with all th
 
 </br>
 
-### How use this app
+## How to use this app
 
 Import the components that you need in your project, for example:
 
