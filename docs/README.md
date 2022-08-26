@@ -23,6 +23,7 @@ Add in the section `dependencies` of the manifest file of the app to use, the ne
   "vtex.components-financial-commission": "0.x"
 }
 ```
+</br>
 
 **Important:** Remember to validate the version. For this, go to the repository [Here](https://github.com/vtex-apps/components-financial-commission)
 
@@ -34,12 +35,16 @@ Here you find the structure of the project folder. The changes made in this app 
 
 ![image](https://user-images.githubusercontent.com/8409481/186645144-3aeb1c81-245b-4948-b80c-8bf653499b3f.png)
 
+</br>
+
 
 **Components folder**
 
 Here you find all elements shared or common between screens. 
 
 A large part of components receives the data from `props`.
+
+</br>
 
 **Utils Folder**
 
@@ -48,11 +53,14 @@ In this folder you find the common operations, for example:
 - Get the date in string format to the using it in the services request
 - Get the first day of the month
 - Functions of filters to use in the components related with filters
+</br>
 
 
 **Typings Folder**
 
 Add the interfaces or commons types to you'll use in the app.
+
+</br>
 
 **Root Folder**
 
