@@ -26,6 +26,8 @@ Add in the section `dependencies` of the manifest file of the app to use, the ne
 
 **Important:** Remember to validate the version. For this, go to the repository [Here](https://github.com/vtex-apps/components-financial-commission)
 
+</br>
+
 ## Project Structure
 
 Here you find the structure of the project folder. The changes made in this app will be reflected in the apps using the **Components Financial Commission** app in the dependencies
