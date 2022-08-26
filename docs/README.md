@@ -14,7 +14,7 @@
  
  </br>
 
-## How use this app
+## How import this app
 
 Add in the section `dependencies` of the manifest file of the app to use, the next instruction that show you below.
 
@@ -56,11 +56,148 @@ Add the interfaces or commons types to you'll use in the app.
 
 Here you can find the folder `message`. Here add the files `en.json` with all the dynamic text. Also, you should add the file `context.json` with the explanation of the use of each dynamic text.
 
+</br>
+
+### How use this app
+
+Import the components that you need in your project, for example:
+
+```jsx
+import { detail as Detail } from 'vtex.components-financial-commission'
+
+return (
+    <Detail
+      dataSellers={dataSellers}
+      ordersQuery={SEARCH_ORDERS}
+      invoiceMutation={CREATE_INVOICE}
+      invoicesQuery={SELLER_INVOICES}
+      settingsQuery={GET_SETTINGS}
+    />
+  )
+
+/** Types */
+interface DetailProps {
+  account?: string
+  dataSellers?: {
+    getSellers: {
+      pagination: Pagination
+      sellers: [DataSellerSelect]
+    }
+  }
+  ordersQuery: DocumentNode
+  invoiceMutation: DocumentNode
+  invoicesQuery: DocumentNode
+  settingsQuery?: DocumentNode
+}
+```
+</br>
+
+The components available with the assigned types:
+
+```jsx
+import { settings as Settings } from 'vtex.components-financial-commission'
+
+return (
+    <Settings
+      getSellersQuery={GET_SELLERS}
+      createSettingsMutation={CREATE_SETTINGS}
+      getSettingsQuery={GET_SETTINGS}
+      editToken={EDIT_TOKEN}
+      createTokenMutation={CREATE_TOKEN}
+      getTokenQuery={GET_TOKEN}
+    />
+  )
+
+/** Types */
+interface DetailProps {
+  account?: string
+  dataSellers?: {
+    getSellers: {
+      pagination: Pagination
+      sellers: [DataSellerSelect]
+    }
+  }
+  ordersQuery: DocumentNode
+  invoiceMutation: DocumentNode
+  invoicesQuery: DocumentNode
+  settingsQuery?: DocumentNode
+}
+```
+
+```tsx
+import { commissionReport as Report } from 'vtex.components-financial-commission'
+
+return (
+    <Report
+      getSellersQuery={GET_SELLERS}
+      searchStatsQuery={SEARCH_STATS}
+      searchSellersQuery={SEARCH_SELLERS}
+    />
+  )
+
+/** Types */
+interface ReportProps {
+  getSellersQuery: DocumentNode
+  searchStatsQuery: DocumentNode
+  searchSellersQuery: DocumentNode
+}
+```
+
+```tsx
+import { settingsDetail as SettingsDetail } from 'vtex.components-financial-commission'
+
+return (
+    <SettingsDetail
+      createTokenMutation={CREATE_TOKEN}
+      editToken={EDIT_TOKEN}
+      getTokenQuery={GET_TOKEN}
+      createSettingsMutation={CREATE_SETTINGS}
+      getSettingsQuery={GET_SETTINGS}
+    />
+  )
+
+/** Types */
+
+interface SettingsDetailProps {
+  createTokenMutation: DocumentNode
+  editToken: DocumentNode
+  getTokenQuery: DocumentNode
+  createSettingsMutation: DocumentNode
+  getSettingsQuery: DocumentNode
+}
+```
+
+```jsx
+import { invoiceDetail as InvoiceDetail } from 'vtex.components-financial-commission'
+
+return (
+    <InvoiceDetail
+      invoiceQuery={GET_INVOICE}
+      getTemplate={GET_TEMPLATE}
+      sendEmail={SEND_EMAIL}
+    />
+  )
+
+/** Types */
+
+interface InvoiceDetailProps {
+  invoiceQuery: DocumentNode
+  getTemplate: DocumentNode
+  sendEmail: DocumentNode
+}
+```
+
+Use the types to identify the data to pass between props of the components.
+
+
 ---
 
 **Other things about the project:**
 
-- Please, don't upload the file `yarn.lock`. Remove this file of the `commit`.
-- When you clone the project, create your work branch from `develop`.
-- Upload your changes by making a `pull request`.
-- Not forget to update the version and documentation. This last only if this is necessary. 
+`🚫` Please, don't upload the file `yarn.lock`. Remove this file of the `commit`.
+
+`✅` When you clone the project, create your work branch from `develop`.
+
+`✅` Upload your changes by making a `pull request`.
+
+`⚠️` Not forget to update the version and documentation. This last only if this is necessary.
