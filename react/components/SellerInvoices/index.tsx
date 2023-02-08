@@ -72,19 +72,19 @@ const SellerInvoices: FC<DetailProps> = ({
 
   const schemaTableInvoice = [
     {
-      id: 'id',
+      id: 'columnId',
       title: <FormattedMessage id="admin/table-seller-invoice" />,
       // eslint-disable-next-line react/display-name
-      cellRenderer: (props: CellRendererProps) => {
+      cellRenderer: (props: any) => {
         return (
           // eslint-disable-next-line jsx-a11y/anchor-is-valid
           <a
-            href={`/admin/app/commission-report/invoice/${props.data}`}
+            href={`/admin/app/commission-report/invoice/${props.data.href}`}
             style={{ color: '#0C389F' }}
             target="_self"
             rel="noreferrer"
           >
-            {props.data}
+            {props.data.idVisible}
           </a>
         )
       },
