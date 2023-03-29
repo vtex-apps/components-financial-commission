@@ -72,19 +72,19 @@ const SellerInvoices: FC<DetailProps> = ({
 
   const schemaTableInvoice = [
     {
-      id: 'id',
+      id: 'columnId',
       title: <FormattedMessage id="admin/table-seller-invoice" />,
       // eslint-disable-next-line react/display-name
-      cellRenderer: (props: CellRendererProps) => {
+      cellRenderer: (props: any) => {
         return (
           // eslint-disable-next-line jsx-a11y/anchor-is-valid
           <a
-            href={`/admin/app/commission-report/invoice/${props.data}`}
+            href={`/admin/app/commission-report/invoice/${props.data.href}`}
             style={{ color: '#0C389F' }}
             target="_self"
             rel="noreferrer"
           >
-            {props.data}
+            {props.data.idVisible}
           </a>
         )
       },
@@ -109,6 +109,37 @@ const SellerInvoices: FC<DetailProps> = ({
           <Tag bgColor={bgColor} color={fontcolor}>
             {props.data}
           </Tag>
+        )
+      },
+    },
+    {
+      id: 'downloadFiles',
+      title: <FormattedMessage id="admin/table-seller-download" />,
+      // eslint-disable-next-line react/display-name
+      cellRenderer: (props: any) => {
+        return (
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
+          <>
+            <a
+              href={`/_v/financial-commission/${props.data.sellerId}/invoice/${props.data.id}/generate/xml?sellerName=${props.data.sellerName}`}
+              style={{ color: '#0C389F' }}
+              target="_self"
+              rel="noreferrer"
+            >
+              {/* {props.data.idVisible} */}
+              XML
+            </a>
+            <span> | </span>
+            <a
+              href={`/_v/financial-commission/${props.data.sellerId}/invoice/${props.data.id}/generate/csv?sellerName=${props.data.sellerName}`}
+              style={{ color: '#0C389F' }}
+              target="_self"
+              rel="noreferrer"
+            >
+              {/* {props.data.idVisible} */}
+              CSV
+            </a>
+          </>
         )
       },
     },

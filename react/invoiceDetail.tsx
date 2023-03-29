@@ -2,9 +2,8 @@ import Handlebars from 'handlebars'
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
 import { useQuery, useMutation } from 'react-apollo'
-import { FormattedMessage } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
-import { Alert, Button, Layout, PageHeader, Spinner } from 'vtex.styleguide'
+import { Layout, Spinner } from 'vtex.styleguide'
 import type { DocumentNode } from 'graphql'
 
 interface InvoiceDetailProps {
@@ -20,10 +19,10 @@ const InvoiceDetail: FC<InvoiceDetailProps> = (props) => {
   const { params } = route
   const { id } = params
 
-  const [emailSent, setEmailSent] = useState(false)
+  const [, setEmailSent] = useState(false)
   const [template, setTemplate] = useState('')
   const [invoice, setInvoice] = useState<Invoice>({})
-  const [sendEmailFunc, { data: emailData }] = useMutation(sendEmail)
+  const [, { data: emailData }] = useMutation(sendEmail)
 
   const { data } = useQuery(invoiceQuery, {
     ssr: false,
@@ -63,30 +62,8 @@ const InvoiceDetail: FC<InvoiceDetailProps> = (props) => {
   const hbTemplate = Handlebars.compile(template)
   const htmlString = hbTemplate({ id, ...invoice })
 
-  const handleSendEmail = () => {
-    sendEmailFunc({
-      variables: {
-        emailData: {
-          email: invoice?.seller.contact.email,
-          jsonData: JSON.stringify(invoice),
-        },
-      },
-    })
-  }
-
   return (
     <Layout>
-      <PageHeader title="Invoice Detail">
-        {emailSent ? (
-          <Alert type="success">
-            {<FormattedMessage id="admin/email-success" />}
-          </Alert>
-        ) : (
-          <Button onClick={handleSendEmail}>
-            <FormattedMessage id="admin/form-settings.button-email" />
-          </Button>
-        )}
-      </PageHeader>
       <div
         style={{
           position: 'relative',
